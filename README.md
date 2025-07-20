@@ -67,13 +67,6 @@ Open [http://localhost:3000](http://localhost:3000) to view in your browser.
 [👉 View Live Portfolio](https://your-live-link.com)  
 *(Replace with your deployed URL)*
 
----
-
-## 📞 Contact Me
-
-- **Phone:** +91 9392423976  
-- **Email:** contact@preventrixhealth.com  
-- **LinkedIn:** [Your LinkedIn Profile](https://linkedin.com/in/yourprofile)  
 
 ---
 
