@@ -28,13 +28,13 @@ const projects = [
     gradient: "from-green-500 to-teal-600",
   },
   {
-    title: "Weather Dashboard",
+    title: "SkySense Weather Dashboard",
     description:
       "Interactive weather dashboard with location-based forecasts, charts, and weather alerts. Built with modern web technologies and APIs.",
     image: "/placeholder.svg?height=300&width=400",
     technologies: ["JavaScript", "Chart.js", "Weather API"],
-    github: "https://github.com",
-    live: "https://example.com",
+    github: "https://github.com/surendravarikallu/weather_dashboard",
+    live: "https://weather-dashboard-wmdm.vercel.app/",
     gradient: "from-cyan-500 to-blue-600",
   },
 ]
