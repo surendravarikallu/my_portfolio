@@ -1,10 +1,9 @@
 "use client"
 
-import type React from "react"
+import  React from "react"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -32,7 +31,7 @@ export default function ContactSection() {
     setFormData({ name: "", email: "", message: "" })
     setIsSubmitting(false)
 
-    // Show success message (you can implement a toast here)
+    // Show success message
     alert("Message sent successfully!")
   }
 
@@ -43,11 +42,14 @@ export default function ContactSection() {
     }))
   }
 
+  const XIcon = () => (
+    <img src="/X-Logo.png" alt="X" className="w-6 h-6 object-contain" />
+  );
   const socialLinks = [
-    { icon: Github, href: "https://github.com", label: "GitHub", color: "hover:text-gray-400" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn", color: "hover:text-blue-400" },
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter", color: "hover:text-cyan-400" },
-  ]
+    { icon: Github, href: "https://github.com/surendravarikallu", label: "GitHub", color: "hover:text-gray-400" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/surendra-varikallu-081914321/", label: "LinkedIn", color: "hover:text-blue-400" },
+    { icon: XIcon, href: "https://x.com/surendravarikallu", label: "X", color: "hover:text-cyan-400" },
+  ];
 
   return (
     <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -90,7 +92,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Email</p>
-                    <p className="text-white font-medium">surendra@example.com</p>
+                    <p className="text-white font-medium">varikallusurendra@gmail.com</p>
                   </div>
                 </motion.div>
 
@@ -100,7 +102,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Phone</p>
-                    <p className="text-white font-medium">+91 12345 67890</p>
+                    <p className="text-white font-medium">+91 9392423976</p>
                   </div>
                 </motion.div>
 
@@ -110,7 +112,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Location</p>
-                    <p className="text-white font-medium">Hyderabad, India</p>
+                    <p className="text-white font-medium">Guntur, India</p>
                   </div>
                 </motion.div>
               </div>
@@ -119,7 +121,7 @@ export default function ContactSection() {
               <div className="mt-8 pt-8 border-t border-white/20">
                 <p className="text-gray-400 text-sm mb-4">Follow me on</p>
                 <div className="flex space-x-4">
-                  {socialLinks.map((social, index) => (
+                  {socialLinks.map((social) => (
                     <motion.a
                       key={social.label}
                       href={social.href}
@@ -129,7 +131,7 @@ export default function ContactSection() {
                       whileTap={{ scale: 0.9 }}
                       className={`p-3 bg-white/10 rounded-full text-gray-400 ${social.color} transition-colors duration-300 hover:bg-white/20`}
                     >
-                      <social.icon className="h-5 w-5" />
+                      {React.createElement(social.icon)}
                     </motion.a>
                   ))}
                 </div>

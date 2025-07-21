@@ -1,7 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 
 export default function AboutSection() {
@@ -34,22 +33,30 @@ export default function AboutSection() {
             className="relative"
           >
             {/* Glassmorphism Card */}
-            <div className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 shadow-2xl">
+            <motion.div
+              className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 shadow-2xl"
+              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ duration: 0.3 }}
+            >
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 to-purple-500/10 rounded-3xl"></div>
               <div className="relative z-10">
-                <div className="w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden border-4 border-cyan-400/50 shadow-lg">
+                <motion.div
+                  className="w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden border-4 border-cyan-400/50 shadow-lg"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <img
-                    src="/placeholder.svg?height=200&width=200"
+                    src="/profile.avif?height=200&width=200"
                     alt="Varikallu Surendra"
                     className="w-full h-full object-cover"
                   />
-                </div>
+                </motion.div>
                 <div className="text-center">
                   <h3 className="text-2xl font-bold text-white mb-2">Varikallu Surendra</h3>
                   <p className="text-cyan-400 font-medium">Full Stack Developer</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
@@ -58,17 +65,22 @@ export default function AboutSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="space-y-6"
           >
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+            <motion.div
+              className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+              whileHover={{ scale: 1.02, y: -2 }}
+              transition={{ duration: 0.3 }}
+            >
               <p className="text-gray-300 text-lg leading-relaxed">
                 I am pursuing 3rd year B.Tech in Computer Science at KITS Akshar Institute of Technology. Completed Web
                 Development Internship at Codegnan, Full Stack Development Internship at Cognifyz Technologies, and SQL
                 Certifications at HackerRank.
               </p>
-            </div>
+            </motion.div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <motion.div
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -3 }}
+                transition={{ duration: 0.3 }}
                 className="bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-xl p-4 border border-cyan-400/30"
               >
                 <h4 className="text-cyan-400 font-semibold mb-2">Education</h4>
@@ -77,7 +89,8 @@ export default function AboutSection() {
               </motion.div>
 
               <motion.div
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -3 }}
+                transition={{ duration: 0.3 }}
                 className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl p-4 border border-purple-400/30"
               >
                 <h4 className="text-purple-400 font-semibold mb-2">Experience</h4>
@@ -87,7 +100,8 @@ export default function AboutSection() {
             </div>
 
             <motion.div
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ scale: 1.02, y: -2 }}
+              transition={{ duration: 0.3 }}
               className="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-xl p-4 border border-white/10"
             >
               <h4 className="text-white font-semibold mb-2">Passion</h4>

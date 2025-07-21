@@ -1,7 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { Award, ExternalLink } from "lucide-react"
 
@@ -11,27 +10,27 @@ const certificates = [
     issuer: "Codegnan",
     date: "2024",
     description: "Comprehensive web development training covering HTML, CSS, JavaScript, and modern frameworks.",
-    logo: "/placeholder.svg?height=80&width=80",
+    logo: "/codegnan-logo.jpg",
     color: "from-blue-500 to-cyan-500",
-    link: "https://codegnan.com",
+    link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_completion-certificate-activity-7346374322422247424-tQCd?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
   },
   {
     title: "Full Stack Development",
     issuer: "Cognifyz Technologies",
     date: "2024",
     description: "Complete full-stack development internship covering both frontend and backend technologies.",
-    logo: "/placeholder.svg?height=80&width=80",
+    logo: "/cognifyz-logo.jpg",
     color: "from-purple-500 to-pink-500",
-    link: "https://cognifyz.com",
+    link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_full-stack-certificate-activity-7350820591731372032-oEOh?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
   },
   {
     title: "SQL Certification",
     issuer: "HackerRank",
     date: "2024",
     description: "Advanced SQL certification demonstrating proficiency in database management and queries.",
-    logo: "/placeholder.svg?height=80&width=80",
+    logo: "/hackerrank-logo.png",
     color: "from-green-500 to-teal-500",
-    link: "https://hackerrank.com",
+    link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_sql-hackerrank-certified-activity-7350835811635920897-uKm6?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
   },
 ]
 
@@ -71,33 +70,37 @@ export default function CertificatesSection() {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               whileHover={{
                 y: -10,
-                rotateY: 5,
                 scale: 1.02,
               }}
-              className="group relative perspective-1000"
+              className="group relative h-full"
             >
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-2xl transition-all duration-300 relative overflow-hidden h-full flex flex-col">
                 {/* Background Gradient */}
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${cert.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl`}
                 ></div>
 
                 {/* Certificate Content */}
-                <div className="relative z-10">
+                <div className="relative z-10 flex-grow flex flex-col">
                   {/* Logo and Award Icon */}
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-white/40 transition-colors duration-300">
+                    <motion.div
+                      className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-white/40 transition-colors duration-300"
+                      whileHover={{ scale: 1.1 }}
+                    >
                       <img
-                        src={cert.logo || "/placeholder.svg"}
+                        src={cert.logo}
                         alt={`${cert.issuer} logo`}
-                        className="w-full h-full object-cover"
+                        className="w-16 h-16 rounded-full object-contain bg-white/10 p-2"
                       />
-                    </div>
-                    <div
+                    </motion.div>
+                    <motion.div
                       className={`p-3 rounded-full bg-gradient-to-br ${cert.color} group-hover:scale-110 transition-transform duration-300`}
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.6 }}
                     >
                       <Award className="h-6 w-6 text-white" />
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* Certificate Info */}
@@ -108,14 +111,14 @@ export default function CertificatesSection() {
                     <p className="text-gray-300 font-medium">{cert.issuer}</p>
                     <span className="text-sm text-gray-400 bg-white/10 px-2 py-1 rounded-full">{cert.date}</span>
                   </div>
-                  <p className="text-gray-400 text-sm mb-6 leading-relaxed">{cert.description}</p>
+                  <p className="text-gray-400 text-sm mb-6 leading-relaxed flex-grow">{cert.description}</p>
 
                   {/* View Certificate Button */}
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => window.open(cert.link, "_blank")}
-                    className={`w-full py-3 px-4 bg-gradient-to-r ${cert.color} text-white rounded-xl font-medium transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 group-hover:shadow-lg`}
+                    className={`w-full py-3 px-4 bg-gradient-to-r ${cert.color} text-white rounded-xl font-medium transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 group-hover:shadow-lg mt-auto`}
                   >
                     <ExternalLink className="h-4 w-4" />
                     View Certificate
@@ -142,7 +145,7 @@ export default function CertificatesSection() {
             { number: "3+", label: "Certifications" },
             { number: "2+", label: "Internships" },
             { number: "100%", label: "Completion Rate" },
-          ].map((stat, index) => (
+          ].map((stat) => (
             <div
               key={stat.label}
               className="text-center bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
