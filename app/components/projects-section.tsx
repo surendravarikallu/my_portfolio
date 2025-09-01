@@ -59,7 +59,7 @@ const projects = [
   {
     title: "SkySense Weather Dashboard",
     description:
-      "A comprehensive weather dashboard that provides real-time weather data, interactive charts, and a modern dark theme interface. Features include city search, geolocation-based weather, temperature/humidity trends, weather alerts, and responsive design. Built with Next.js, TypeScript, Tailwind CSS, and OpenWeatherMap API. Explore it live at https://weather-dashboard-wmdm.vercel.app/.",
+      "A comprehensive weather dashboard that provides real-time weather data, interactive charts, and a modern dark theme interface. Features include city search, geolocation-based weather, temperature/humidity trends, weather alerts, and responsive design. Built with Next.js, TypeScript, Tailwind CSS, and OpenWeatherMap API.",
     image: "/weather.png",
     technologies: ["JavaScript", "Chart.js", "Weather API"],
     github: "https://github.com/surendravarikallu/weather_dashboard",

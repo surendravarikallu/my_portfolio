@@ -1,7 +1,6 @@
 "use client"
 
-import  React from "react"
-
+import React from "react"
 import { useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
@@ -9,6 +8,7 @@ import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter } from "lucide-rea
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import emailjs from '@emailjs/browser'
 
 export default function ContactSection() {
   const ref = useRef(null)
@@ -19,20 +19,39 @@ export default function ContactSection() {
     message: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitStatus('idle')
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      // Initialize EmailJS with your public key
+      emailjs.init("f29AK1znO_Oxxaruo") // Your EmailJS public key
 
-    // Reset form
-    setFormData({ name: "", email: "", message: "" })
-    setIsSubmitting(false)
+      const result = await emailjs.send(
+        "service_41or11c", // Your EmailJS service ID
+        "template_2psgheo", // Your EmailJS template ID
+        {
+          from_name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }
+      )
 
-    // Show success message
-    alert("Message sent successfully!")
+      if (result.status === 200) {
+        setSubmitStatus('success')
+        setFormData({ name: "", email: "", message: "" })
+      } else {
+        setSubmitStatus('error')
+      }
+    } catch (error) {
+      console.error('Email send failed:', error)
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -44,12 +63,13 @@ export default function ContactSection() {
 
   const XIcon = () => (
     <img src="/X-Logo.png" alt="X" className="w-6 h-6 object-contain" />
-  );
+  )
+  
   const socialLinks = [
     { icon: Github, href: "https://github.com/surendravarikallu", label: "GitHub", color: "hover:text-gray-400" },
     { icon: Linkedin, href: "https://www.linkedin.com/in/surendra-varikallu-081914321/", label: "LinkedIn", color: "hover:text-blue-400" },
     { icon: XIcon, href: "https://x.com/surendravarikallu", label: "X", color: "hover:text-cyan-400" },
-  ];
+  ]
 
   return (
     <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -150,6 +170,19 @@ export default function ContactSection() {
               className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 space-y-6"
             >
               <h3 className="text-2xl font-bold text-white mb-6">Send Message</h3>
+
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <div className="p-4 bg-green-500/20 border border-green-500/30 rounded-lg">
+                  <p className="text-green-400 text-center">Message sent successfully! I'll get back to you soon.</p>
+                </div>
+              )}
+              
+              {submitStatus === 'error' && (
+                <div className="p-4 bg-red-500/20 border border-red-500/30 rounded-lg">
+                  <p className="text-red-400 text-center">Failed to send message. Please try again or contact me directly.</p>
+                </div>
+              )}
 
               <div className="space-y-4">
                 <div>

@@ -71,9 +71,7 @@ export default function AboutSection() {
               transition={{ duration: 0.3 }}
             >
               <p className="text-gray-300 text-lg leading-relaxed">
-                I am pursuing 3rd year B.Tech in Computer Science at KITS Akshar Institute of Technology. Completed Web
-                Development Internship at Codegnan, Full Stack Development Internship at Cognifyz Technologies, and SQL
-                Certifications at HackerRank.
+                I'm a passionate developer who loves turning ideas into reality through code. When I'm not building websites or debugging applications, you'll find me exploring new technologies, contributing to open-source projects, or sharing knowledge with fellow developers. I believe in writing clean, maintainable code and constantly pushing my boundaries to learn something new every day.
               </p>
             </motion.div>
 
