@@ -6,10 +6,19 @@ import { Award, ExternalLink } from "lucide-react"
 
 const certificates = [
   {
+    title: "Google Student Ambassador",
+    issuer: "Google",
+    date: "2024",
+    description: "Spearheaded campus-wide technology initiatives and hackathons as a Google representative. Fostered a vibrant developer community by mentoring peers, organizing technical workshops, and facilitating access to Google's cutting-edge development tools and resources.",
+    logo: "/google-logo.png",
+    color: "from-yellow-400 to-red-500",
+    link: "#",
+  },
+  {
     title: "Web Development",
     issuer: "Codegnan",
     date: "2024",
-    description: "Comprehensive web development training covering HTML, CSS, JavaScript, and modern frameworks.",
+    description: "Acquired mastery in full-spectrum web engineering, moving from semantic HTML5/CSS3 to advanced JavaScript paradigms. Developed responsive, high-performance interfaces and dynamic applications using modern component-based architectures.",
     logo: "/codegnan-logo.jpg",
     color: "from-blue-500 to-cyan-500",
     link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_completion-certificate-activity-7346374322422247424-tQCd?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
@@ -18,7 +27,7 @@ const certificates = [
     title: "Full Stack Development",
     issuer: "Cognifyz Technologies",
     date: "2024",
-    description: "Complete full-stack development internship covering both frontend and backend technologies.",
+    description: "Executed comprehensive full-stack solutions during an intensive internship, integrating robust backend RESTful APIs with sleek React frontends. Gained practical expertise in database schema design, server-side logic, and seamless client-server communication.",
     logo: "/cognifyz-logo.jpg",
     color: "from-purple-500 to-pink-500",
     link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_full-stack-certificate-activity-7350820591731372032-oEOh?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
@@ -27,7 +36,7 @@ const certificates = [
     title: "SQL Certification",
     issuer: "HackerRank",
     date: "2024",
-    description: "Advanced SQL certification demonstrating proficiency in database management and queries.",
+    description: "Achieved advanced proficiency in relational database architecture and complex SQL querying. Demonstrated capability in optimizing data retrieval operations, designing normalized schemas, and managing large-scale datasets for performance-critical applications.",
     logo: "/hackerrank-logo.png",
     color: "from-green-500 to-teal-500",
     link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_sql-hackerrank-certified-activity-7350835811635920897-uKm6?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
@@ -142,8 +151,8 @@ export default function CertificatesSection() {
           className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6"
         >
           {[
-            { number: "3+", label: "Certifications" },
-            { number: "2+", label: "Internships" },
+            { number: "6+", label: "Certifications" },
+            { number: "3+", label: "Internships" },
             { number: "100%", label: "Completion Rate" },
           ].map((stat) => (
             <div

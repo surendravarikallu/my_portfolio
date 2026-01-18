@@ -1,116 +1,79 @@
-"use client"
+"use client";
 
-import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { TiltedCard } from "@/components/ui/tilted-card";
 
 export default function AboutSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
-
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-800"></div>
+    <section id="about" className="py-24 px-4 relative overflow-hidden bg-neutral-900 text-white">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
 
-      <div className="relative z-10 max-w-6xl mx-auto">
+        {/* Left Side: Tilted Card Image */}
         <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="flex justify-center"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">About Me</span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full"></div>
+          <TiltedCard
+            className="w-full max-w-md aspect-[3/4]"
+            containerWidth="100%"
+            containerHeight="100%"
+            rotateAmplitude={15}
+            scaleOnHover={1.05}
+          >
+            <div className="w-full h-full rounded-xl overflow-hidden shadow-2xl relative group bg-neutral-800">
+              <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/90 via-transparent to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity duration-500"></div>
+
+              <Image
+                src="/profile-pic.png"
+                alt="Surendra Varikallu - Profile"
+                fill
+                className="object-cover transform scale-105 group-hover:scale-110 transition-transform duration-700"
+                priority
+              />
+
+              <div className="absolute bottom-6 left-6 z-20">
+                <h3 className="text-2xl font-bold text-white mb-1 drop-shadow-md">Surendra Varikallu</h3>
+                <p className="text-cyan-300 font-mono text-sm tracking-wide drop-shadow-sm">Full Stack Developer</p>
+              </div>
+            </div>
+          </TiltedCard>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            {/* Glassmorphism Card */}
-            <motion.div
-              className="relative bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 shadow-2xl"
-              whileHover={{ scale: 1.02, y: -5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 to-purple-500/10 rounded-3xl"></div>
-              <div className="relative z-10">
-                <motion.div
-                  className="w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden border-4 border-cyan-400/50 shadow-lg"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <img
-                    src="/profile.avif?height=200&width=200"
-                    alt="Varikallu Surendra"
-                    className="w-full h-full object-cover"
-                  />
-                </motion.div>
-                <div className="text-center">
-                  <h3 className="text-2xl font-bold text-white mb-2">Varikallu Surendra</h3>
-                  <p className="text-cyan-400 font-medium">Full Stack Developer</p>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+        {/* Right Side: Content */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <h2 className="text-4xl font-bold mb-6">
+            About <span className="text-cyan-400">Me</span>
+          </h2>
+          <div className="h-1 w-20 bg-cyan-500 mb-8"></div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-6"
-          >
-            <motion.div
-              className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
-              whileHover={{ scale: 1.02, y: -2 }}
-              transition={{ duration: 0.3 }}
-            >
-              <p className="text-gray-300 text-lg leading-relaxed">
-                I'm a passionate developer who loves turning ideas into reality through code. When I'm not building websites or debugging applications, you'll find me exploring new technologies, contributing to open-source projects, or sharing knowledge with fellow developers. I believe in writing clean, maintainable code and constantly pushing my boundaries to learn something new every day.
-              </p>
-            </motion.div>
+          <p className="text-gray-300 leading-relaxed text-lg mb-6">
+            I am a passionate <span className="text-cyan-400 font-semibold">Full Stack Developer</span> based in India. Currently, I am a Pre-Final Year Undergraduate Student pursuing Computer Science at KITS Akshar Institute of Technology.
+          </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <motion.div
-                whileHover={{ scale: 1.05, y: -3 }}
-                transition={{ duration: 0.3 }}
-                className="bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-xl p-4 border border-cyan-400/30"
-              >
-                <h4 className="text-cyan-400 font-semibold mb-2">Education</h4>
-                <p className="text-gray-300 text-sm">B.Tech CSE - 3rd Year</p>
-                <p className="text-gray-400 text-xs">KITS Akshar Institute</p>
-              </motion.div>
+          <p className="text-gray-300 leading-relaxed text-lg mb-8">
+            My journey started with a curiosity about how websites work, which led me to dive deep into the world of web development. I specialize in modern JavaScript frameworks like <span className="text-white">React.js, Next.js</span>, and backend technologies including <span className="text-white">Node.js and Express</span>.
+          </p>
 
-              <motion.div
-                whileHover={{ scale: 1.05, y: -3 }}
-                transition={{ duration: 0.3 }}
-                className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl p-4 border border-purple-400/30"
-              >
-                <h4 className="text-purple-400 font-semibold mb-2">Experience</h4>
-                <p className="text-gray-300 text-sm">2 Internships</p>
-                <p className="text-gray-400 text-xs">Web & Full Stack Dev</p>
-              </motion.div>
+          <div className="grid grid-cols-2 gap-6 mb-8">
+            <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-cyan-500">
+              <h4 className="font-bold text-xl mb-1">1.5+</h4>
+              <p className="text-sm text-gray-400">Years Experience</p>
             </div>
+            <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-purple-500">
+              <h4 className="font-bold text-xl mb-1">8+</h4>
+              <p className="text-sm text-gray-400">Projects Completed</p>
+            </div>
+          </div>
+        </motion.div>
 
-            <motion.div
-              whileHover={{ scale: 1.02, y: -2 }}
-              transition={{ duration: 0.3 }}
-              className="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-xl p-4 border border-white/10"
-            >
-              <h4 className="text-white font-semibold mb-2">Passion</h4>
-              <p className="text-gray-300 text-sm">
-                Passionate about creating innovative web solutions and constantly learning new technologies to build
-                impactful applications.
-              </p>
-            </motion.div>
-          </motion.div>
-        </div>
       </div>
     </section>
-  )
+  );
 }
