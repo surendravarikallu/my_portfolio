@@ -10,7 +10,7 @@ export function PageLoader() {
   const doneRef = useRef(false);
 
   useEffect(() => {
-    const duration = 2500;
+    const duration = 1500;
     const interval = 30;
     const step = 100 / (duration / interval);
 

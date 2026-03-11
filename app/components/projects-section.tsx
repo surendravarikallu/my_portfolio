@@ -1,18 +1,51 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Code2, Rocket, Layout, Server, Database, CloudOff, Brain, GraduationCap, CloudSun, MessageSquareCode, Plane } from "lucide-react";
+import { ExternalLink, Github, Code2, Rocket, Layout, Server, Database, CloudOff, Brain, GraduationCap, CloudSun, MessageSquareCode, Plane, Shield, Users, Trophy, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SpotlightCard from "@/components/ui/spotlight-card";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 
 const projects = [
   {
-    title: "AI Interview Platform",
-    description: "An intelligent platform for technical interviews using React.js and local LLMs (Qwen). Currently under development.",
+    title: "Skillnox Platform",
+    description: "Secure aptitude and technical assessment platform with tab-switching detection, AI extension blocking, disabled developer tools, and real-time test monitoring. Currently deployed on the college server (private repository).",
+    tags: ["React", "Node.js", "Express", "PostgreSQL"],
+    links: { demo: "", github: "" },
+    icon: <Shield className="w-8 h-8 text-cyan-400" />,
+    impact: "250+ Users • College Deployed",
+  },
+  {
+    title: "Placement Management Portal",
+    description: "College portal for managing placement drives, student data, and training records with TPO dashboard, performance tracking, and Excel/PDF export reports.",
+    tags: ["React", "Node.js", "PostgreSQL"],
+    links: { demo: "", github: "" },
+    icon: <Users className="w-8 h-8 text-emerald-400" />,
+    impact: "TPO Dashboard",
+  },
+  {
+    title: "Skillnox.AI",
+    description: "An intelligent AI-powered interview platform for technical assessments using React.js and local LLMs (Qwen). Currently under development.",
     tags: ["React.js", "Local LLMs (Qwen)", "Tailwind CSS"],
     links: { demo: "", github: "" },
-    icon: <Brain className="w-8 h-8 text-cyan-400" />
+    icon: <Brain className="w-8 h-8 text-cyan-400" />,
+    impact: "AI-Powered",
+  },
+  {
+    title: "Student Connect",
+    description: "A hyperlocal microjob marketplace connecting people with verified university students for services like poster design, website development, tutoring, and quick microtasks. Hackathon Third Prize winner.",
+    tags: ["Python", "Django", "PostgreSQL"],
+    links: { demo: "http://studentconnect-sjc1.onrender.com/", github: "https://github.com/surendravarikallu/HSJM" },
+    icon: <Briefcase className="w-8 h-8 text-violet-400" />,
+    impact: "Hackathon 3rd Prize",
+  },
+  {
+    title: "Bug Bounty Competition Platform",
+    description: "Interactive cybersecurity event platform with multiple rounds including log analysis and vulnerable web exploitation, featuring secure login dashboards and event scoring.",
+    tags: ["React", "Node.js", "Express"],
+    links: { demo: "https://bug-bounty-j687.onrender.com/", github: "https://github.com/surendravarikallu/Bug_Bounty" },
+    icon: <Trophy className="w-8 h-8 text-amber-400" />,
+    impact: "Multi-round Scoring",
   },
   {
     title: "LumoraEd",
@@ -76,6 +109,11 @@ export default function ProjectsSection() {
                   </div>
 
                   <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">{project.title}</h3>
+                  {'impact' in project && project.impact && (
+                    <span className="inline-block mb-3 text-xs font-semibold px-3 py-1 rounded-full bg-cyan-500/15 text-cyan-400 border border-cyan-500/25">
+                      {project.impact}
+                    </span>
+                  )}
                   <p className="text-gray-400 mb-6 flex-grow leading-relaxed">
                     {project.description}
                   </p>
@@ -116,7 +154,7 @@ export default function ProjectsSection() {
                       )
                     )}
                     {!project.links.github && !project.links.demo && (
-                      <span className="text-xs font-mono text-gray-500 uppercase tracking-widest self-center">Coming Soon</span>
+                      <span className="text-xs font-mono text-gray-500 uppercase tracking-widest self-center flex items-center gap-2">🔒 Private Repository</span>
                     )}
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion"
-import { ArrowRight, Download } from "lucide-react"
+import { ArrowRight, Download, Github } from "lucide-react"
 import dynamic from "next/dynamic"
 import ShimmerButton from "@/components/ui/shimmer-button"
 import { useEffect } from "react"
@@ -63,22 +63,31 @@ export default function HeroSection() {
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
                         style={{ x: textX, y: textY }}
-                        className="text-lg sm:text-xl text-gray-400 max-w-2xl mb-10"
+                        className="text-xl sm:text-2xl text-gray-200 font-medium max-w-2xl mb-4"
                     >
-                        I'm a Full Stack Developer driven by a passion for building scalable, high-performance web applications. I specialize in merging technical excellence with visual storytelling to create unique digital experiences.
+                        Full Stack Developer building scalable platforms and developer tools.
+                    </motion.p>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
+                        className="text-base sm:text-lg text-gray-400 max-w-2xl mb-10"
+                    >
+                        I build production-grade web platforms that solve real problems — from secure assessment systems serving 250+ users to full-stack management portals with real-time analytics.
                     </motion.p>
 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.6 }}
+                        transition={{ duration: 0.8, delay: 0.7 }}
                         className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                     >
                         <ShimmerButton className="shadow-2xl" onClick={scrollToProjects}>
                             <span className="text-white text-sm font-semibold flex items-center gap-2">
-                                View Work <ArrowRight className="w-4 h-4" />
+                                View Projects <ArrowRight className="w-4 h-4" />
                             </span>
                         </ShimmerButton>
 
@@ -89,6 +98,15 @@ export default function HeroSection() {
                             className="px-6 py-3 rounded-full border border-gray-700 hover:border-cyan-500/50 hover:bg-gray-900/50 text-gray-300 hover:text-white transition-all duration-300 flex items-center gap-2 text-sm font-medium"
                         >
                             <Download className="w-4 h-4" /> Download Resume
+                        </a>
+
+                        <a
+                            href="https://github.com/surendravarikallu"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-6 py-3 rounded-full border border-gray-700 hover:border-purple-500/50 hover:bg-gray-900/50 text-gray-300 hover:text-white transition-all duration-300 flex items-center gap-2 text-sm font-medium"
+                        >
+                            <Github className="w-4 h-4" /> GitHub
                         </a>
                     </motion.div>
                 </div>

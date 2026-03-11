@@ -84,12 +84,27 @@ export default function AboutSection() {
           />
 
           <p className="text-gray-300 leading-relaxed text-lg mb-6">
-            I am a passionate <span className="text-cyan-400 font-semibold">Full Stack Developer</span> based in India. Currently, I am a Pre-Final Year Undergraduate Student pursuing Computer Science at KITS Akshar Institute of Technology.
+            Pre-Final Year CS student at KITS Akshar Institute of Technology, building <span className="text-cyan-400 font-semibold">production-grade full-stack applications</span>.
           </p>
 
-          <p className="text-gray-300 leading-relaxed text-lg mb-8">
-            My journey started with a curiosity about how websites work, which led me to dive deep into the world of web development. I specialize in modern JavaScript frameworks like <span className="text-white">React.js, Next.js</span>, and backend technologies including <span className="text-white">Node.js and Express</span>.
-          </p>
+          <ul className="space-y-3 mb-8 text-gray-300 text-base">
+            <li className="flex items-start gap-3">
+              <span className="text-cyan-400 mt-1">▹</span>
+              Full Stack Developer focused on scalable web platforms
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-cyan-400 mt-1">▹</span>
+              Experience building real-world student and assessment systems
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-cyan-400 mt-1">▹</span>
+              Proficient in React, Next.js, Node.js, Express, and PostgreSQL
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-cyan-400 mt-1">▹</span>
+              Passionate about developer tools, security, and clean architecture
+            </li>
+          </ul>
 
             <div className="grid grid-cols-2 gap-6 mb-8">
             <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-cyan-500">

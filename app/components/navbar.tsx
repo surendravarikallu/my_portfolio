@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Download, Github, Linkedin } from "lucide-react"
 
 const navItems = [
   { name: "Home", href: "#home" },
@@ -11,6 +11,12 @@ const navItems = [
   { name: "Projects", href: "#projects" },
   { name: "Certificates", href: "#certificates" },
   { name: "Contact", href: "#contact" },
+]
+
+const externalLinks = [
+  { icon: Download, href: "/resume.pdf", label: "Resume", color: "hover:text-cyan-400" },
+  { icon: Github, href: "https://github.com/surendravarikallu", label: "GitHub", color: "hover:text-white" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/surendra-varikallu-081914321/", label: "LinkedIn", color: "hover:text-blue-400" },
 ]
 
 export default function Navbar() {
@@ -58,14 +64,14 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent text-shadow-glow"
+            className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent"
           >
             VS
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-1">
+          <div className="hidden md:flex items-center gap-1">
+            <div className="flex items-baseline space-x-1">
               {navItems.map((item) => (
                 <motion.button
                   key={item.name}
@@ -87,6 +93,22 @@ export default function Navbar() {
                     />
                   )}
                 </motion.button>
+              ))}
+            </div>
+
+            {/* External links separator + icons */}
+            <div className="ml-4 pl-4 border-l border-neutral-700 flex items-center gap-2">
+              {externalLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.label === "Resume" ? "_blank" : "_blank"}
+                  rel="noopener noreferrer"
+                  title={link.label}
+                  className={`p-2 text-gray-400 ${link.color} transition-colors duration-200`}
+                >
+                  <link.icon className="w-4 h-4" />
+                </a>
               ))}
             </div>
           </div>
@@ -127,6 +149,21 @@ export default function Navbar() {
                   {item.name}
                 </motion.button>
               ))}
+
+              {/* Mobile external links row */}
+              <div className="flex items-center gap-4 pt-4 mt-2 border-t border-neutral-800 px-3">
+                {externalLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`p-2 text-gray-400 ${link.color} transition-colors`}
+                  >
+                    <link.icon className="w-5 h-5" />
+                  </a>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
