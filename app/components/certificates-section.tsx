@@ -1,8 +1,29 @@
 "use client"
 
-import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
+import { motion, useInView, useSpring, useMotionValue } from "framer-motion"
 import { Award, ExternalLink } from "lucide-react"
+import { ScrollReveal } from "@/components/animations/ScrollReveal"
+
+function AnimatedStat({ value, suffix = "" }: { value: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+  const motionVal = useMotionValue(0);
+  const springVal = useSpring(motionVal, { stiffness: 80, damping: 20 });
+
+  useEffect(() => {
+    if (inView) motionVal.set(value);
+  }, [inView, motionVal, value]);
+
+  useEffect(() => {
+    const unsub = springVal.on("change", (v) => {
+      if (ref.current) ref.current.textContent = `${Math.round(v)}${suffix}`;
+    });
+    return unsub;
+  }, [springVal, suffix]);
+
+  return <span ref={ref}>0{suffix}</span>;
+}
 
 const certificates = [
   {
@@ -44,19 +65,14 @@ const certificates = [
 ]
 
 export default function CertificatesSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
-
   return (
     <section id="certificates" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-gray-800 to-gray-900"></div>
 
       <div className="relative z-10 max-w-6xl mx-auto">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 0.8 }}
+        <ScrollReveal
+          delay={0}
+          yOffset={50}
           className="text-center mb-16"
         >
           <h2 className="text-4xl sm:text-5xl font-bold mb-4">
@@ -68,21 +84,23 @@ export default function CertificatesSection() {
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
             Professional certifications and achievements that validate my skills and expertise
           </p>
-        </motion.div>
+        </ScrollReveal>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 gap-8">
           {certificates.map((cert, index) => (
-            <motion.div
+            <ScrollReveal
               key={cert.title}
-              initial={{ opacity: 0, y: 50, rotateY: -15 }}
-              animate={isInView ? { opacity: 1, y: 0, rotateY: 0 } : { opacity: 0, y: 50, rotateY: -15 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              whileHover={{
-                y: -10,
-                scale: 1.02,
-              }}
+              delay={index * 0.2}
+              yOffset={50}
               className="group relative h-full"
             >
+              <motion.div
+                whileHover={{
+                  y: -10,
+                  scale: 1.02,
+                }}
+                className="h-full"
+              >
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-2xl transition-all duration-300 relative overflow-hidden h-full flex flex-col">
                 {/* Background Gradient */}
                 <div
@@ -133,39 +151,38 @@ export default function CertificatesSection() {
                     View Certificate
                   </motion.button>
                 </div>
-
-                {/* Glow Effect */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${cert.color} opacity-0 group-hover:opacity-20 rounded-2xl blur-xl transition-opacity duration-300 -z-10`}
-                ></div>
               </div>
             </motion.div>
+          </ScrollReveal>
           ))}
         </div>
 
         {/* Achievement Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+        <ScrollReveal
+          delay={0.8}
+          yOffset={30}
           className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6"
         >
           {[
             { number: "6+", label: "Certifications" },
             { number: "3+", label: "Internships" },
             { number: "100%", label: "Completion Rate" },
-          ].map((stat) => (
+          ].map((stat: {number: string, label: string}) => (
             <div
               key={stat.label}
               className="text-center bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10"
             >
               <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-2">
-                {stat.number}
+                {stat.label === "Completion Rate" ? (
+                  <><AnimatedStat value={100} suffix="%" /></>
+                ) : (
+                  <><AnimatedStat value={parseInt(stat.number)} suffix="+" /></>
+                )}
               </div>
               <div className="text-gray-400">{stat.label}</div>
             </div>
           ))}
-        </motion.div>
+        </ScrollReveal>
       </div>
     </section>
   )

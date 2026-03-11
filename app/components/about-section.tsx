@@ -1,8 +1,34 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion, useInView, useSpring, useMotionValue } from "framer-motion";
 import { TiltedCard } from "@/components/ui/tilted-card";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+
+function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+  const motionVal = useMotionValue(0);
+  const springVal = useSpring(motionVal, { stiffness: 80, damping: 20 });
+
+  useEffect(() => {
+    if (inView) {
+      motionVal.set(value);
+    }
+  }, [inView, motionVal, value]);
+
+  useEffect(() => {
+    const unsubscribe = springVal.on("change", (latest) => {
+      if (ref.current) {
+        ref.current.textContent = `${Math.round(latest * 10) / 10}${suffix}`;
+      }
+    });
+    return unsubscribe;
+  }, [springVal, suffix]);
+
+  return <span ref={ref}>0{suffix}</span>;
+}
 
 export default function AboutSection() {
   return (
@@ -10,10 +36,9 @@ export default function AboutSection() {
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
 
         {/* Left Side: Tilted Card Image */}
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
+        <ScrollReveal
+          delay={0}
+          yOffset={40}
           className="flex justify-center"
         >
           <TiltedCard
@@ -40,18 +65,23 @@ export default function AboutSection() {
               </div>
             </div>
           </TiltedCard>
-        </motion.div>
+        </ScrollReveal>
 
         {/* Right Side: Content */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+        <ScrollReveal
+          delay={0.2}
+          yOffset={40}
         >
           <h2 className="text-4xl font-bold mb-6">
             About <span className="text-cyan-400">Me</span>
           </h2>
-          <div className="h-1 w-20 bg-cyan-500 mb-8"></div>
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: 80 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="h-1 bg-cyan-500 mb-8"
+          />
 
           <p className="text-gray-300 leading-relaxed text-lg mb-6">
             I am a passionate <span className="text-cyan-400 font-semibold">Full Stack Developer</span> based in India. Currently, I am a Pre-Final Year Undergraduate Student pursuing Computer Science at KITS Akshar Institute of Technology.
@@ -61,17 +91,21 @@ export default function AboutSection() {
             My journey started with a curiosity about how websites work, which led me to dive deep into the world of web development. I specialize in modern JavaScript frameworks like <span className="text-white">React.js, Next.js</span>, and backend technologies including <span className="text-white">Node.js and Express</span>.
           </p>
 
-          <div className="grid grid-cols-2 gap-6 mb-8">
+            <div className="grid grid-cols-2 gap-6 mb-8">
             <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-cyan-500">
-              <h4 className="font-bold text-xl mb-1">1.5+</h4>
+              <h4 className="font-bold text-xl mb-1">
+                <AnimatedCounter value={1.5} suffix="+" />
+              </h4>
               <p className="text-sm text-gray-400">Years Experience</p>
             </div>
             <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-purple-500">
-              <h4 className="font-bold text-xl mb-1">8+</h4>
+              <h4 className="font-bold text-xl mb-1">
+                <AnimatedCounter value={8} suffix="+" />
+              </h4>
               <p className="text-sm text-gray-400">Projects Completed</p>
             </div>
           </div>
-        </motion.div>
+        </ScrollReveal>
 
       </div>
     </section>

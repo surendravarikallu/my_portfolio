@@ -1,7 +1,8 @@
 "use client"
 
-import React, { useState, useRef } from "react"
-import { motion, useInView } from "framer-motion"
+import React, { useState } from "react"
+import { motion } from "framer-motion"
+import { ScrollReveal } from "@/components/animations/ScrollReveal"
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,8 +17,6 @@ const XIcon = ({ size = 24, className }: { size?: number | string, className?: s
 )
 
 export default function ContactSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -79,11 +78,9 @@ export default function ContactSection() {
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-10 pointer-events-none"></div>
 
       <div className="relative z-10 max-w-6xl mx-auto">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8 }}
+        <ScrollReveal
+          delay={0}
+          yOffset={30}
           className="text-center mb-16"
         >
           <h2 className="text-4xl sm:text-5xl font-bold mb-4">
@@ -95,14 +92,12 @@ export default function ContactSection() {
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-lg leading-relaxed">
             I'm always open to discussing new opportunities and interesting projects. Let's build something amazing together!
           </p>
-        </motion.div>
+        </ScrollReveal>
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Information */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          <ScrollReveal
+            delay={0.2}
             className="h-full"
           >
             <SpotlightCard className="h-full bg-neutral-900/50 border-neutral-800 rounded-2xl shadow-2xl backdrop-blur-sm">
@@ -145,33 +140,36 @@ export default function ContactSection() {
                 <div className="mt-12 pt-8 border-t border-neutral-800">
                   <p className="text-gray-400 text-sm mb-6 font-medium">Follow me elsewhere</p>
                   <div className="flex space-x-4">
-                    {socialLinks.map((social) => (
-                      <a
+                    {socialLinks.map((social, index) => (
+                      <motion.a
                         key={social.label}
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`p-3 bg-neutral-800 rounded-full text-gray-400 ${social.color} transition-all duration-300 hover:bg-neutral-700 hover:scale-110`}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3 + index * 0.1 }}
+                        whileHover={{ scale: 1.2, y: -4 }}
+                        className={`p-3 bg-neutral-800 rounded-full text-gray-400 ${social.color} transition-all duration-300 hover:bg-neutral-700`}
                       >
                         {React.createElement(social.icon, { size: 20 })}
-                      </a>
+                      </motion.a>
                     ))}
                   </div>
                 </div>
               </div>
             </SpotlightCard>
-          </motion.div>
+          </ScrollReveal>
 
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+          <ScrollReveal
+            delay={0.4}
             className="h-full"
           >
             <form
               onSubmit={handleSubmit}
-              className="bg-neutral-900/50 backdrop-blur-sm rounded-2xl p-8 border border-neutral-800 space-y-6 h-full shadow-2xl"
+              className="bg-neutral-900/50 backdrop-blur-sm rounded-2xl p-8 border border-neutral-800 space-y-6 h-full shadow-2xl transition-all duration-500 focus-within:border-cyan-500/30 focus-within:shadow-cyan-500/10"
             >
               <h3 className="text-2xl font-bold text-white mb-2">Send Message</h3>
               <p className="text-gray-400 mb-6 text-sm">Have a project in mind or just want to say hi? Fill out the form below.</p>
@@ -241,10 +239,11 @@ export default function ContactSection() {
                 </div>
               </div>
 
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white py-6 rounded-xl font-bold tracking-wide transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-cyan-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white py-6 rounded-xl font-bold tracking-wide transition-all duration-300 shadow-lg hover:shadow-cyan-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <div className="flex items-center justify-center">
@@ -258,19 +257,18 @@ export default function ContactSection() {
                   </div>
                 )}
               </Button>
+              </motion.div>
             </form>
-          </motion.div>
+          </ScrollReveal>
         </div>
 
         {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+        <ScrollReveal
+          delay={0.8}
           className="mt-20 pt-8 border-t border-white/10 text-center"
         >
           <p className="text-gray-500 text-sm">© {new Date().getFullYear()} Varikallu Surendra. Crafted with code.</p>
-        </motion.div>
+        </ScrollReveal>
       </div>
     </section>
   )

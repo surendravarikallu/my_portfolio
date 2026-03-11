@@ -1,18 +1,42 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion"
 import { ArrowRight, Download } from "lucide-react"
-import AnimatedBackground from "@/components/ui/animated-background"
+import dynamic from "next/dynamic"
 import ShimmerButton from "@/components/ui/shimmer-button"
+import { useEffect } from "react"
+
+const HeroScene = dynamic(() => import('@/components/3d/HeroScene'), { ssr: false })
 
 export default function HeroSection() {
+    const mouseX = useMotionValue(0)
+    const mouseY = useMotionValue(0)
+
+    // Smooth spring-based parallax transforms
+    const springConfig = { stiffness: 50, damping: 30 }
+    const textX = useSpring(useTransform(mouseX, [0, 1, -1], [0, -12, 12]), springConfig)
+    const textY = useSpring(useTransform(mouseY, [0, 1, -1], [0, -8, 8]), springConfig)
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            const { innerWidth, innerHeight } = window
+            // Normalize mouse position to -1 to 1
+            mouseX.set((e.clientX / innerWidth - 0.5) * 2)
+            mouseY.set((e.clientY / innerHeight - 0.5) * 2)
+        }
+
+        window.addEventListener("mousemove", handleMouseMove)
+        return () => window.removeEventListener("mousemove", handleMouseMove)
+    }, [mouseX, mouseY])
+
     const scrollToProjects = () => {
         document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
     }
 
     return (
-        <section id="home" className="h-screen w-full relative overflow-hidden">
-            <AnimatedBackground className="absolute inset-0 bg-black" starSpeed={0.2} starSize={1.5} numStars={150}>
+        <section id="home" className="h-screen w-full relative overflow-hidden bg-black">
+            <HeroScene />
+
                 <div className="h-full w-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 text-center z-10 relative">
 
                     <motion.div
@@ -21,7 +45,7 @@ export default function HeroSection() {
                         transition={{ duration: 0.8 }}
                         className="mb-4"
                     >
-                        <span className="inline-block py-1 px-3 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-cyan-400 text-sm font-medium tracking-wide">
+                        <span className="inline-block py-1 px-3 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-cyan-400 text-sm font-medium tracking-wide animate-pulse-glow">
                             Available for Hire
                         </span>
                     </motion.div>
@@ -30,6 +54,7 @@ export default function HeroSection() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
+                        style={{ x: textX, y: textY }}
                         className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-6"
                     >
                         Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Surendra</span>
@@ -39,6 +64,7 @@ export default function HeroSection() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
+                        style={{ x: textX, y: textY }}
                         className="text-lg sm:text-xl text-gray-400 max-w-2xl mb-10"
                     >
                         I'm a Full Stack Developer driven by a passion for building scalable, high-performance web applications. I specialize in merging technical excellence with visual storytelling to create unique digital experiences.
@@ -66,7 +92,6 @@ export default function HeroSection() {
                         </a>
                     </motion.div>
                 </div>
-            </AnimatedBackground>
         </section >
     )
 }

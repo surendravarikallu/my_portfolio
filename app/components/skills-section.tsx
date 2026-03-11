@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import SpotlightCard from "@/components/ui/spotlight-card";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 
 const skills = [
   {
@@ -108,20 +108,15 @@ const SkillIcon = ({ name, icon, isSvg }: { name: string; icon: string | null; i
 }
 
 export default function SkillsSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
-
   return (
     <section id="skills" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-neutral-950">
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black"></div>
 
       <div className="relative z-10 max-w-6xl mx-auto">
-        <motion.div
-          ref={ref}
+        <ScrollReveal
+          delay={0}
+          yOffset={30}
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8 }}
         >
           <h2 className="text-4xl sm:text-5xl font-bold mb-4">
             <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
@@ -132,15 +127,14 @@ export default function SkillsSection() {
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
             Here are the technologies and tools I work with to bring ideas to life
           </p>
-        </motion.div>
+        </ScrollReveal>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
           {skills.map((skill, index) => (
-            <motion.div
+            <ScrollReveal
               key={skill.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
+              delay={index * 0.05}
+              yOffset={20}
             >
               <SpotlightCard
                 className="group h-full bg-neutral-900/50 border-neutral-800"
@@ -155,20 +149,22 @@ export default function SkillsSection() {
                   </h3>
                 </div>
               </SpotlightCard>
-            </motion.div>
+            </ScrollReveal>
           ))}
         </div>
 
         {/* Additional Skills Info */}
-        <div className="mt-16 text-center">
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-4xl mx-auto">
+        <ScrollReveal delay={0.2} yOffset={30} className="mt-16 text-center">
+          <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-4xl mx-auto overflow-hidden">
+            {/* Animated gradient border */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 bg-[size:200%_100%] animate-gradient opacity-20 pointer-events-none" />
             <h3 className="text-2xl font-bold text-white mb-4">Always Learning</h3>
             <p className="text-gray-300 leading-relaxed">
               I'm constantly expanding my skill set and staying up-to-date with the latest technologies. Currently
               exploring advanced <span className="text-cyan-400">AI Integration</span>, <span className="text-purple-400">Cloud Architecture</span>, and modern development practices.
             </p>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   )

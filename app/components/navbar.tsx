@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X } from "lucide-react"
 
 const navItems = [
@@ -22,7 +22,6 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50)
 
-      // Update active section based on scroll position
       const sections = navItems.map((item) => item.href.substring(1))
       const current = sections.find((section) => {
         const element = document.getElementById(section)
@@ -59,27 +58,34 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent"
+            className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent text-shadow-glow"
           >
             VS
           </motion.div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
+            <div className="ml-10 flex items-baseline space-x-1">
               {navItems.map((item) => (
                 <motion.button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`relative px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     activeSection === item.href.substring(1)
-                      ? "text-cyan-400 bg-cyan-400/10"
+                      ? "text-cyan-400"
                       : "text-gray-300 hover:text-cyan-400"
                   }`}
                 >
                   {item.name}
+                  {activeSection === item.href.substring(1) && (
+                    <motion.div
+                      layoutId="navbar-indicator"
+                      className="absolute -bottom-1 inset-x-0 mx-auto h-[2px] w-4/5 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full"
+                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    />
+                  )}
                 </motion.button>
               ))}
             </div>
@@ -94,31 +100,37 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="md:hidden bg-gray-900/95 backdrop-blur-md"
-        >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => scrollToSection(item.href)}
-                className={`block px-3 py-2 rounded-md text-base font-medium w-full text-left transition-colors ${
-                  activeSection === item.href.substring(1)
-                    ? "text-cyan-400 bg-cyan-400/10"
-                    : "text-gray-300 hover:text-cyan-400"
-                }`}
-              >
-                {item.name}
-              </button>
-            ))}
-          </div>
-        </motion.div>
-      )}
+      {/* Mobile Navigation with AnimatePresence */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden bg-gray-900/95 backdrop-blur-md overflow-hidden"
+          >
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {navItems.map((item, index) => (
+                <motion.button
+                  key={item.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  onClick={() => scrollToSection(item.href)}
+                  className={`block px-3 py-2 rounded-md text-base font-medium w-full text-left transition-colors ${
+                    activeSection === item.href.substring(1)
+                      ? "text-cyan-400 bg-cyan-400/10"
+                      : "text-gray-300 hover:text-cyan-400"
+                  }`}
+                >
+                  {item.name}
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   )
 }

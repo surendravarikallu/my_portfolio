@@ -1,10 +1,10 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { ExternalLink, Github, Code2, Rocket, Layout, Server, Database, CloudOff, Brain, GraduationCap, CloudSun, MessageSquareCode, Plane } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SpotlightCard from "@/components/ui/spotlight-card";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 
 const projects = [
   {
@@ -45,19 +45,12 @@ const projects = [
 ];
 
 export default function ProjectsSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
     <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-neutral-950">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-neutral-950 to-black"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 0.8 }}
+        <ScrollReveal
           className="text-center mb-16"
         >
           <h2 className="text-4xl sm:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-600">
@@ -67,17 +60,15 @@ export default function ProjectsSection() {
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-lg">
             Explore some of the applications I've built, demonstrating my expertise in full-stack development and modern UI design.
           </p>
-        </motion.div>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <motion.div
+            <ScrollReveal
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              viewport={{ once: true }}
+              delay={index * 0.1}
             >
+              <motion.div whileHover={{ y: -8 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="h-full">
               <SpotlightCard className="h-full bg-neutral-900/80 border-neutral-800 hover:border-neutral-700 transition-colors">
                 <div className="p-8 h-full flex flex-col relative z-20">
                   <div className="mb-6 bg-neutral-800/50 w-16 h-16 rounded-xl flex items-center justify-center border border-neutral-700 shadow-inner">
@@ -130,14 +121,13 @@ export default function ProjectsSection() {
                   </div>
                 </div>
               </SpotlightCard>
-            </motion.div>
+              </motion.div>
+            </ScrollReveal>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+        <ScrollReveal
+          delay={0.3}
           className="text-center mt-12"
         >
           <Button
@@ -149,7 +139,7 @@ export default function ProjectsSection() {
             <Github className="mr-2 h-5 w-5" />
             View More on GitHub
           </Button>
-        </motion.div>
+        </ScrollReveal>
       </div>
     </section>
   );
