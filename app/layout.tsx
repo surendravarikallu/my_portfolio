@@ -45,9 +45,6 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 't2QA9FzpxfH7zBeYD5BFhypDt-chnwCMAIjYzotmdKg',
-  },
 }
 
 export default function RootLayout({
@@ -57,6 +54,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <meta name="google-site-verification" content="t2QA9FzpxfH7zBeYD5BFhypDt-chnwCMAIjYzotmdKg" />
+      </head>
       <body className={`${inter.className} bg-black text-white antialiased selection:bg-cyan-500/30 selection:text-cyan-200 relative`}>
         <PageLoader />
         <SmoothScroll>
