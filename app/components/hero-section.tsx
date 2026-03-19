@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion"
 import { ArrowRight, Download, Github } from "lucide-react"
 import dynamic from "next/dynamic"
+import Link from "next/link"
 import ShimmerButton from "@/components/ui/shimmer-button"
 import { useEffect } from "react"
 
@@ -83,14 +84,12 @@ export default function HeroSection() {
                             </span>
                         </ShimmerButton>
 
-                        <a
-                            href="/resume.pdf"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <Link
+                            href="/resume"
                             className="px-6 py-3 rounded-full border border-gray-700 hover:border-cyan-500/50 hover:bg-gray-900/50 text-gray-300 hover:text-white transition-all duration-300 flex items-center gap-2 text-sm font-medium"
                         >
-                            <Download className="w-4 h-4" /> Download Resume
-                        </a>
+                            <Download className="w-4 h-4" /> View Resume
+                        </Link>
 
                         <a
                             href="https://github.com/surendravarikallu"

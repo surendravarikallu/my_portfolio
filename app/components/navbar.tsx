@@ -15,7 +15,7 @@ const navItems = [
 ]
 
 const externalLinks = [
-  { icon: Download, href: "/resume.pdf", label: "Resume", color: "hover:text-cyan-400" },
+  { icon: Download, href: "/resume", label: "Resume", color: "hover:text-cyan-400" },
   { icon: Github, href: "https://github.com/surendravarikallu", label: "GitHub", color: "hover:text-white" },
   { icon: Linkedin, href: "https://www.linkedin.com/in/surendra-varikallu-081914321/", label: "LinkedIn", color: "hover:text-blue-400" },
 ]

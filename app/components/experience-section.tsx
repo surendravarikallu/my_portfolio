@@ -14,9 +14,9 @@ const experiences = [
     icon: <Award className="w-5 h-5 text-amber-400" />,
     color: "amber",
     description: [
-      "Built 'StudentConnect' a collaborative platform for students to share resources and work on projects.",
+      "Built 'StudentConnect' a collaborative platform for students to share academic resources and work on projects.",
       "Developed the full-stack application using Python, Django, and PostgreSQL within 48 hours.",
-      "Successfully deployed the live project on Render.",
+      "Secured 3rd place overall and successfully deployed the live project on Render.",
     ],
   },
   {
@@ -27,9 +27,9 @@ const experiences = [
     icon: <Star className="w-5 h-5 text-purple-400" />,
     color: "purple",
     description: [
-      "Represented Google on campus, organizing technical events and workshops.",
-      "Spearheaded the TechFest 2k24 organizing committee, managing over 500+ participants.",
-      "Fostered a community of student developers by mentoring juniors in web technologies.",
+      "Organized and hosted 7+ technical workshops on Google Cloud, Android, and AI tools, increasing student involvement by 45%.",
+      "Built and managed a student tech community of 150+ active learners, mentoring peers through Google certification tracks.",
+      "Increased campus adoption of Google programs through strategic outreach, resulting in a 50% rise in student registrations.",
     ],
   },
   {
@@ -40,22 +40,22 @@ const experiences = [
     icon: <Briefcase className="w-5 h-5 text-cyan-400" />,
     color: "cyan",
     description: [
-      "Developed interactive and responsive web applications using React.js, Next.js, and Node.js.",
-      "Collaborated with the team to design and implement efficient database schemas with MongoDB.",
-      "Optimized API endpoints resulting in faster data retrieval and improved site performance.",
+      "Built dynamic full-stack web applications using HTML, CSS, JavaScript, and Node.js, delivering responsive UIs.",
+      "Integrated RESTful APIs with modern frontend components, boosting application functionality and reliability by 40%.",
+      "Engineered tailored solutions leveraging React.js, Express.js, and MongoDB, achieving a 30% reduction in bottlenecks.",
     ],
   },
   {
     id: 4,
     title: "Web Development Intern",
-    organization: "Codegnan Setup (Offline)",
+    organization: "Codegnan (Offline)",
     date: "May 2025 - June 2025",
     icon: <GraduationCap className="w-5 h-5 text-emerald-400" />,
     color: "emerald",
     description: [
-      "Completed an intensive offline internship focusing on core web development.",
-      "Gained hands-on experience in building structured web pages and applications.",
-      "Built foundational projects to solidify understanding of backend concepts.",
+      "Built and deployed a fully responsive travel website using HTML, CSS, JavaScript, and Bootstrap.",
+      "Optimized website performance by minimizing assets and structuring components efficiently, achieving under 2s load time.",
+      "Developed and integrated Design Applications using Figma and Adobe XD, accelerating UI prototyping and handoff.",
     ],
   },
 ];
@@ -100,9 +100,8 @@ export default function ExperienceSection() {
                 <ScrollReveal
                   key={exp.id}
                   delay={index * 0.15}
-                  className={`flex flex-col md:flex-row gap-8 items-center ${
-                    index % 2 === 0 ? "md:flex-row-reverse" : ""
-                  }`}
+                  className={`flex flex-col md:flex-row gap-8 items-center ${index % 2 === 0 ? "md:flex-row-reverse" : ""
+                    }`}
                 >
                   {/* Timeline Dot */}
                   <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-neutral-900 border-4 border-neutral-950 items-center justify-center z-20 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
