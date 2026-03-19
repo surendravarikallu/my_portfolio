@@ -84,7 +84,7 @@ export default function AboutSection() {
           />
 
           <p className="text-gray-300 leading-relaxed text-lg mb-6">
-            Pre-Final Year CS student at KITS Akshar Institute of Technology, building <span className="text-cyan-400 font-semibold">production-grade full-stack applications</span>.
+            Full Stack Developer building <span className="text-cyan-400 font-semibold">production-grade web platforms</span> that solve real problems — from secure assessment systems serving 250+ users to management portals with real-time analytics.
           </p>
 
           <ul className="space-y-3 mb-8 text-gray-300 text-base">

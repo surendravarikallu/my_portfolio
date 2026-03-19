@@ -8,22 +8,24 @@ const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'Surendra Varikallu | Full Stack Developer',
-  description: 'Portfolio of Surendra Varikallu, a Full Stack Developer specializing in React, Next.js, and AI.',
+  description: 'Full Stack Developer building scalable platforms like Skillnox, a secure assessment system used by 250+ students.',
   generator: 'Surendra Varikallu',
   icons: {
     icon: '/favicon.ico',
   },
   openGraph: {
     title: 'Surendra Varikallu | Full Stack Developer',
-    description: 'Immersive 3D portfolio showcasing full-stack development expertise with React, Next.js, and AI.',
-    url: 'https://surendravarikallu.vercel.app',
+    description: 'Full Stack Developer building scalable platforms like Skillnox, a secure assessment system used by 250+ students.',
+    url: 'https://surendravarikallu.dev',
     siteName: 'Surendra Varikallu Portfolio',
+    images: [{ url: 'https://surendravarikallu.dev/profile-pic.png', width: 1200, height: 630, alt: 'Surendra Varikallu – Full Stack Developer' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Surendra Varikallu | Full Stack Developer',
-    description: 'Immersive 3D portfolio showcasing full-stack development expertise.',
+    description: 'Full Stack Developer building scalable platforms like Skillnox, a secure assessment system used by 250+ students.',
+    images: ['https://surendravarikallu.dev/profile-pic.png'],
   },
 }
 

@@ -86,7 +86,7 @@ function ParticleSystem({ count = 300 }) {
 
 export default function HeroScene() {
   return (
-    <div className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-70">
+    <div className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-50">
       <Canvas
         dpr={[1, 1.5]}
         camera={{ position: [0, 0, 5], fov: 45 }}

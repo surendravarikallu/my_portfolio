@@ -65,18 +65,10 @@ export default function HeroSection() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
                         style={{ x: textX, y: textY }}
-                        className="text-xl sm:text-2xl text-gray-200 font-medium max-w-2xl mb-4"
+                        className="text-lg sm:text-xl text-gray-300 font-medium max-w-3xl mb-10 leading-relaxed"
                     >
-                        Full Stack Developer building scalable platforms and developer tools.
-                    </motion.p>
-
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.5 }}
-                        className="text-base sm:text-lg text-gray-400 max-w-2xl mb-10"
-                    >
-                        I build production-grade web platforms that solve real problems — from secure assessment systems serving 250+ users to full-stack management portals with real-time analytics.
+                        Full Stack Developer building scalable platforms and real-world systems.{" "}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Creator of Skillnox</span> – a secure assessment platform used by 250+ students.
                     </motion.p>
 
                     <motion.div

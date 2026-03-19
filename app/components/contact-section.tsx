@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram } from "lucide-react"
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -105,6 +105,16 @@ export default function ContactSection() {
                 <h3 className="text-2xl font-bold text-white mb-8">Let's Connect</h3>
 
                 <div className="space-y-8">
+                  <div className="flex items-center space-x-6">
+                    <div className="p-4 bg-emerald-500/10 rounded-full border border-emerald-500/20 text-emerald-400 shrink-0">
+                      <Globe className="h-6 w-6" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-gray-400 text-sm font-medium uppercase tracking-wide">Website</p>
+                      <a href="https://surendravarikallu.dev" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-emerald-400 transition-colors break-all">surendravarikallu.dev</a>
+                    </div>
+                  </div>
+
                   <div className="flex items-center space-x-6">
                     <div className="p-4 bg-cyan-500/10 rounded-full border border-cyan-500/20 text-cyan-400 shrink-0">
                       <Mail className="h-6 w-6" />
