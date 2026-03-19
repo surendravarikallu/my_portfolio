@@ -7,25 +7,43 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://surendravarikallu.dev'),
   title: 'Surendra Varikallu | Full Stack Developer',
   description: 'Full Stack Developer building scalable platforms like Skillnox, a secure assessment system used by 250+ students.',
-  generator: 'Surendra Varikallu',
-  icons: {
-    icon: '/favicon.ico',
+  alternates: {
+    canonical: 'https://surendravarikallu.dev',
   },
   openGraph: {
-    title: 'Surendra Varikallu | Full Stack Developer',
-    description: 'Full Stack Developer building scalable platforms like Skillnox, a secure assessment system used by 250+ students.',
+    title: 'Surendra Varikallu Portfolio',
+    description: 'Full Stack Developer building real-world systems and scalable platforms',
     url: 'https://surendravarikallu.dev',
-    siteName: 'Surendra Varikallu Portfolio',
-    images: [{ url: 'https://surendravarikallu.dev/profile-pic.png', width: 1200, height: 630, alt: 'Surendra Varikallu – Full Stack Developer' }],
+    siteName: 'Surendra Portfolio',
     type: 'website',
+    images: [
+      {
+        url: '/preview.png',
+        width: 1200,
+        height: 630,
+        alt: 'Surendra Varikallu - Full Stack Developer',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Surendra Varikallu | Full Stack Developer',
-    description: 'Full Stack Developer building scalable platforms like Skillnox, a secure assessment system used by 250+ students.',
-    images: ['https://surendravarikallu.dev/profile-pic.png'],
+    title: 'Surendra Varikallu Portfolio',
+    description: 'Full Stack Developer building scalable platforms',
+    images: ['/preview.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 }
 
