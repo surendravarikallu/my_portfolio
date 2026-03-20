@@ -6,6 +6,7 @@ import ExperienceSection from "./components/experience-section"
 import ProjectsSection from "./components/projects-section"
 import CertificatesSection from "./components/certificates-section"
 import ContactSection from "./components/contact-section"
+import Footer from "./components/footer"
 
 export default function Portfolio() {
   return (
@@ -21,6 +22,7 @@ export default function Portfolio() {
           <CertificatesSection />
           <ContactSection />
         </main>
+        <Footer />
       </div>
     </div>
   )

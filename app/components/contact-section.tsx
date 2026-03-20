@@ -272,13 +272,6 @@ export default function ContactSection() {
           </ScrollReveal>
         </div>
 
-        {/* Footer */}
-        <ScrollReveal
-          delay={0.8}
-          className="mt-20 pt-8 border-t border-white/10 text-center"
-        >
-          <p className="text-gray-500 text-sm">© {new Date().getFullYear()} Varikallu Surendra. Crafted with code.</p>
-        </ScrollReveal>
       </div>
     </section>
   )
