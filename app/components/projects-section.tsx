@@ -1,10 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Code2, Rocket, Layout, Server, Database, CloudOff, Brain, GraduationCap, CloudSun, MessageSquareCode, Plane, Shield, Users, Trophy, Briefcase, Lock, Star, Mail } from "lucide-react";
+import { useState } from "react";
+import { ExternalLink, Github, Code2, Rocket, Layout, Server, Database, CloudOff, Brain, GraduationCap, CloudSun, MessageSquareCode, Plane, Shield, Users, Trophy, Briefcase, Lock, Star, Mail, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SpotlightCard from "@/components/ui/spotlight-card";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { RequestAccessModal } from "@/components/ui/request-access-modal";
 
 const featuredProjects = [
   {
@@ -130,11 +132,13 @@ const otherProjects = [
 ];
 
 function FeaturedProjectCard({ project, index }: { project: typeof featuredProjects[0]; index: number }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <ScrollReveal delay={index * 0.15} className="h-full">
       <motion.div whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="h-full">
         <SpotlightCard className={`h-full bg-neutral-900/80 border-neutral-800 ${project.borderGlow} transition-all duration-300`}>
-          <div className="p-8 relative z-20 h-full flex flex-col">
+          <div className="p-6 sm:p-8 relative z-20 h-full flex flex-col">
             {/* Label */}
             <span className="inline-block mb-4 text-xs font-bold px-3 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 text-white border border-cyan-500/30 tracking-wide uppercase self-start">
               {project.label}
@@ -231,10 +235,10 @@ function FeaturedProjectCard({ project, index }: { project: typeof featuredProje
                     variant="outline"
                     size="sm"
                     className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/50 text-xs"
-                    onClick={() => window.open("mailto:varikallusurendra@gmail.com?subject=Skillnox%20Project%20Details%20Request", "_blank")}
+                    onClick={() => setIsModalOpen(true)}
                   >
-                    <Mail className="w-3.5 h-3.5 mr-1.5" />
-                    Details on request
+                    <Key className="w-3.5 h-3.5 mr-1.5" />
+                    Request Access
                   </Button>
                 </div>
               ) : (
@@ -246,6 +250,12 @@ function FeaturedProjectCard({ project, index }: { project: typeof featuredProje
               )}
             </div>
           </div>
+
+          <RequestAccessModal 
+            isOpen={isModalOpen} 
+            onClose={() => setIsModalOpen(false)} 
+            projectTitle={project.title} 
+          />
         </SpotlightCard>
       </motion.div>
     </ScrollReveal>
@@ -257,7 +267,7 @@ function ProjectCard({ project, index }: { project: typeof otherProjects[0]; ind
     <ScrollReveal delay={index * 0.1}>
       <motion.div whileHover={{ y: -8 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="h-full">
         <SpotlightCard className="h-full bg-neutral-900/80 border-neutral-800 hover:border-neutral-700 transition-colors">
-          <div className="p-8 h-full flex flex-col relative z-20">
+          <div className="p-6 sm:p-8 h-full flex flex-col relative z-20 w-full">
             <div className="mb-6 bg-neutral-800/50 w-16 h-16 rounded-xl flex items-center justify-center border border-neutral-700 shadow-inner">
               {project.icon}
             </div>
@@ -320,10 +330,10 @@ function ProjectCard({ project, index }: { project: typeof otherProjects[0]; ind
 
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-neutral-950">
+    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-clip bg-neutral-950">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-neutral-950 to-black"></div>
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="relative z-10 w-full max-w-7xl mx-auto">
         {/* Featured Projects Header */}
         <ScrollReveal className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-600">

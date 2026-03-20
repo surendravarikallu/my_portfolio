@@ -35,7 +35,8 @@ const certificates = [
     color: "from-cyan-400 to-purple-500",
     link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_hackathon-python-django-ugcPost-7431210605279121408-JUdM?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
     projectLink: "http://studentconnect-sjc1.onrender.com/",
-    buttonLabel: "View Certificate",
+    buttonLabel: "View on LinkedIn",
+    isLinkedIn: true,
   },
   {
     title: "Google Student Ambassador",
@@ -56,7 +57,8 @@ const certificates = [
     logo: "/codegnan-logo.jpg",
     color: "from-blue-500 to-cyan-500",
     link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_completion-certificate-activity-7346374322422247424-tQCd?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
-    buttonLabel: "View Certificate",
+    buttonLabel: "View on LinkedIn",
+    isLinkedIn: true,
   },
   {
     title: "Full Stack Development",
@@ -66,7 +68,8 @@ const certificates = [
     logo: "/cognifyz-logo.jpg",
     color: "from-purple-500 to-pink-500",
     link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_full-stack-certificate-activity-7350820591731372032-oEOh?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
-    buttonLabel: "View Certificate",
+    buttonLabel: "View on LinkedIn",
+    isLinkedIn: true,
   },
   {
     title: "AI & Data Science Workshops",
@@ -76,7 +79,8 @@ const certificates = [
     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg",
     color: "from-indigo-500 to-blue-600",
     link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_participation-certificate-activity-7420081204214902784-qvrw?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
-    buttonLabel: "View Event Details",
+    buttonLabel: "View on LinkedIn",
+    isLinkedIn: true,
   },
   {
     title: "Participant — Google DevFest Hyderabad",
@@ -86,7 +90,8 @@ const certificates = [
     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg",
     color: "from-blue-400 to-green-500",
     link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_dev-feast-hyderabad-2025-activity-7385869175635804160-NE9-?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
-    buttonLabel: "View Event Details",
+    buttonLabel: "View on LinkedIn",
+    isLinkedIn: true,
   },
   {
     title: "SQL Certification",
@@ -96,7 +101,8 @@ const certificates = [
     logo: "/hackerrank-logo.png",
     color: "from-green-500 to-teal-500",
     link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_sql-hackerrank-certified-activity-7350835811635920897-uKm6?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
-    buttonLabel: "View Certificate",
+    buttonLabel: "View on LinkedIn",
+    isLinkedIn: true,
   },
   {
     title: "Oracle Cloud Infrastructure 2025 Certified Generative AI Professional",
@@ -106,7 +112,8 @@ const certificates = [
     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg",
     color: "from-red-500 to-red-700",
     link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_genai-activity-7366834534375378945-DczT?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
-    buttonLabel: "View Certificate",
+    buttonLabel: "View on LinkedIn",
+    isLinkedIn: true,
   },
   {
     title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
@@ -116,7 +123,8 @@ const certificates = [
     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg",
     color: "from-red-400 to-orange-500",
     link: "https://www.linkedin.com/posts/surendra-varikallu-081914321_oracle-certificate-activity-7363389478024933376-zSbH?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
-    buttonLabel: "View Certificate",
+    buttonLabel: "View on LinkedIn",
+    isLinkedIn: true,
   },
 ]
 
