@@ -39,6 +39,13 @@ The project follows a component-centric composition model. Instead of relying on
 │   └── 3d/
 │       └── HeroScene.tsx      -> R3F Canvas rendering the interactive geometric background of the Hero section.
 │
+├── docs/
+│   └── TESTING.md         -> Testing architecture and configuration documentation.
+│
+├── lib/
+│   ├── utils.ts           -> Class merging utility function.
+│   └── utils.test.ts      -> Unit tests for the class merging utility.
+│
 ├── ... (public/ assets, configurations, package.json)
 ```
 
@@ -98,6 +105,23 @@ This route handles a custom PDF embedded view specifically designed to restrict 
 - **Responsive Sizing Math:** The iframe parent uses a CSS constraint (`aspectRatio: '1 / 2.92'`) manually calculated to match the exact mathematical bounds of a two-page standard A4 PDF document scaled horizontally (`view=FitH`). This ensures the bottom of the PDF never clips on wide (desktop) screens, and never leaves white space on narrow (mobile) screens.
 - **Scrollbar Elimination:** The `iframe` is forced slightly larger via `width: calc(100% + 20px)`. This CSS hack shoves the browser's native rigid PDF scrollbar out of the `overflow-hidden` bounding box constraint, rendering it invisible. Only standard UI smooth scrolling applied to the parent `div` operates.
 - **DRM Protection:** An absolute `.inset-0.z-10` transparent `div` layer sits atop the iframe. It intercepts all mouse interaction arrays via `onContextMenu={e => e.preventDefault()}` and blocks text selection via Tailwind's `select-none`, rendering "Right-Click -> Save As" and highlighting impossible while still passing general scrollwheel events linearly.
+
+---
+
+## 🧪 Testing
+
+The portfolio application uses **Jest** with `jest-environment-jsdom` for unit testing the core utilities.
+
+To run the tests:
+```bash
+# Run Jest tests
+npm run test
+
+# Run tests with code coverage maps
+npm run test:coverage
+```
+
+For more details on configuration, see the **[Testing Documentation (docs/TESTING.md)](docs/TESTING.md)**.
 
 ---
 
