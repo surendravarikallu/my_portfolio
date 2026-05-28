@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'], display: 'swap' })
 export const metadata: Metadata = {
   metadataBase: new URL('https://surendravarikallu.dev'),
   title: 'Surendra Varikallu | Full Stack Developer',
-  description: 'Full Stack Developer building scalable platforms like Skillnox, a secure assessment system used by 250+ students.',
+  description: 'Full Stack Developer building scalable production systems like Skillnox, load-tested with 5,000+ concurrent users.',
   alternates: {
     canonical: 'https://surendravarikallu.dev',
   },

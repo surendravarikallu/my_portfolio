@@ -17,7 +17,7 @@ const navItems = [
 const externalLinks = [
   { icon: Download, href: "/resume", label: "Resume", color: "hover:text-cyan-400" },
   { icon: Github, href: "https://github.com/surendravarikallu", label: "GitHub", color: "hover:text-white" },
-  { icon: Linkedin, href: "https://www.linkedin.com/in/surendra-varikallu-081914321/", label: "LinkedIn", color: "hover:text-blue-400" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/surendravarikallu/", label: "LinkedIn", color: "hover:text-blue-400" },
 ]
 
 export default function Navbar() {
@@ -48,7 +48,11 @@ export default function Navbar() {
   const scrollToSection = (href: string) => {
     const element = document.getElementById(href.substring(1))
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(element, { duration: 1.2 })
+      } else {
+        element.scrollIntoView({ behavior: "smooth" })
+      }
     }
     setIsOpen(false)
   }
