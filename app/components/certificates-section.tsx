@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import { motion, useInView, useSpring, useMotionValue } from "framer-motion"
 import { Award, ExternalLink, Linkedin } from "lucide-react"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
+import { TextReveal } from "@/components/animations/TextReveal"
 
 function AnimatedStat({ value, suffix = "" }: { value: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -16,7 +17,7 @@ function AnimatedStat({ value, suffix = "" }: { value: number; suffix?: string }
   }, [inView, motionVal, value]);
 
   useEffect(() => {
-    const unsub = springVal.on("change", (v) => {
+    const unsub = springVal.on("change", (v: number) => {
       if (ref.current) ref.current.textContent = `${Math.round(v)}${suffix}`;
     });
     return unsub;
@@ -26,6 +27,18 @@ function AnimatedStat({ value, suffix = "" }: { value: number; suffix?: string }
 }
 
 const certificates = [
+  {
+    title: "Hackathon First Prize — Elevate X Season 2",
+    issuer: "Codegnan",
+    date: "2026",
+    description: "Won 1st prize at Elevate X Season 2 Hackathon, a 12-hour full-stack coding sprint organized by Codegnan. Developed and deployed a high-performance prototype, showcasing rapid full-stack engineering.",
+    logo: "/codegnan-logo.jpg",
+    color: "from-yellow-400 to-amber-500",
+    link: "https://www.linkedin.com/posts/surendravarikallu_hackathon-elevatex-codegna-ugcPost-7461969134462025728-RJXk/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
+    projectLink: "http://global-smile-lc5h.onrender.com/",
+    buttonLabel: "View on LinkedIn",
+    isLinkedIn: true,
+  },
   {
     title: "Hackathon Third Prize — Student Connect",
     issuer: "College Hackathon",
@@ -139,11 +152,7 @@ export default function CertificatesSection() {
           yOffset={50}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              Certificates & Achievements
-            </span>
-          </h2>
+          <TextReveal text="Certificates & Achievements" className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent" />
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full"></div>
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
             Professional certifications and achievements that validate my skills and expertise

@@ -58,7 +58,7 @@ function AbstractShape() {
 
   return (
     <Float speed={prefersReducedMotion ? 0 : 2} rotationIntensity={prefersReducedMotion ? 0 : 1} floatIntensity={prefersReducedMotion ? 0 : 2}>
-      <mesh ref={meshRef} scale={[1, 1, 1]}>
+      <mesh ref={meshRef} scale={[0.0001, 0.0001, 0.0001]}>
         <icosahedronGeometry args={[2, 1]} />
         <meshStandardMaterial
           color="#22d3ee"

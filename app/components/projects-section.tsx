@@ -6,6 +6,7 @@ import { ExternalLink, Github, Code2, Rocket, Layout, Server, Database, CloudOff
 import { Button } from "@/components/ui/button";
 import SpotlightCard from "@/components/ui/spotlight-card";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { TextReveal } from "@/components/animations/TextReveal";
 import { RequestAccessModal } from "@/components/ui/request-access-modal";
 
 const featuredProjects = [
@@ -14,48 +15,48 @@ const featuredProjects = [
     label: "⭐ Featured Project",
     description: "A secure assessment platform designed for large-scale college-level testing with advanced anti-cheating mechanisms.",
     features: [
-      "250+ concurrent users",
+      "5,000+ concurrent users",
+      "99.66% success under peak exam load",
       "Tab switching detection",
       "Shortcut / Windows key blocking",
       "Developer tools disabled",
       "AI extension blocking",
-      "Real-time evaluation",
     ],
     tags: ["React", "Node.js", "Express", "PostgreSQL"],
-    links: { demo: "", github: "" },
+    links: { demo: "https://skillnox.kitaghire.in", github: "" },
     icon: <Shield className="w-8 h-8 text-cyan-400" />,
-    impact: "250+ Users • College Deployed",
+    impact: "5,000+ Peak Users • College Deployed",
     isPrivate: true,
     gradient: "from-cyan-500/20 to-blue-600/20",
     borderGlow: "hover:border-cyan-500/40",
     impactDetails: [
       "Used by final-year and pre-final-year students",
-      "Enables secure online assessments",
-      "Reduces malpractice",
+      "Load tested with 99.66% success rate under peak load",
+      "Actively deployed for secure online assessments",
     ],
   },
   {
-    title: "Student Connect",
-    label: "🏆 Hackathon Project",
-    description: "A collaborative platform developed during a hackathon to help students connect, share academic resources, and collaborate on projects. Secured 3rd prize at the college hackathon.",
+    title: "Global Smile",
+    label: "🚀 AI Dental App",
+    description: "Advanced prosthodontic care platform without borders. Integrates AI-powered smile visualization, treatment journeys, and global dental tourism coordination.",
     features: [
-      "Resource sharing system",
-      "Project collaboration",
-      "Student networking",
-      "Academic forums",
-      "Real-time messaging",
-      "Built in 48 hours",
+      "AI smile visualization",
+      "Treatment journey tracking",
+      "Dental tourism workflow",
+      "Offline PWA functionality",
+      "Transparent treatment estimates",
+      "Virtual dental consultations",
     ],
-    tags: ["Python", "Django", "PostgreSQL"],
-    links: { demo: "http://studentconnect-sjc1.onrender.com/", github: "https://github.com/surendravarikallu/HSJM" },
-    icon: <Trophy className="w-8 h-8 text-amber-400" />,
-    impact: "Hackathon 3rd Prize",
-    gradient: "from-amber-500/20 to-orange-600/20",
-    borderGlow: "hover:border-amber-500/40",
+    tags: ["React.js", "Vite", "Tailwind CSS", "PWA"],
+    links: { demo: "http://global-smile-lc5h.onrender.com/", github: "https://github.com/surendravarikallu/Global-Smile" },
+    icon: <Rocket className="w-8 h-8 text-amber-400" />,
+    impact: "AI-Powered Dental Care",
+    gradient: "from-yellow-500/20 to-amber-600/20",
+    borderGlow: "hover:border-amber-400/40",
     impactDetails: [
-      "Secured 3rd place among competing teams",
-      "Full-stack app built in 48-hour hackathon",
-      "Live demo deployed on Render",
+      "AI-driven smile simulation rendering",
+      "Comprehensive treatment tracker",
+      "Dental tourism coordinator workflow",
     ],
   },
   {
@@ -86,12 +87,20 @@ const featuredProjects = [
 
 const otherProjects = [
   {
-    title: "Placement Management Portal",
-    description: "College portal for managing placement drives, student data, and training records with TPO dashboard, performance tracking, and Excel/PDF export reports.",
+    title: "Student Connect",
+    description: "A collaborative platform developed during a hackathon to help students connect, share academic resources, and collaborate on projects. Secured 3rd prize at the college hackathon.",
+    tags: ["Python", "Django", "PostgreSQL"],
+    links: { demo: "http://studentconnect-sjc1.onrender.com/", github: "https://github.com/surendravarikallu/HSJM" },
+    icon: <Trophy className="w-8 h-8 text-amber-400" />,
+    impact: "Hackathon 3rd Prize",
+  },
+  {
+    title: "KITAghire.in",
+    description: "A live college training and placement portal actively used at college scale to manage placement drives, student profiles, and recruitment records, featuring a comprehensive TPO dashboard and analytics.",
     tags: ["React", "Node.js", "PostgreSQL"],
-    links: { demo: "", github: "" },
+    links: { demo: "https://kitaghire.in", github: "" },
     icon: <Users className="w-8 h-8 text-emerald-400" />,
-    impact: "TPO Dashboard",
+    impact: "Active College Portal",
   },
   {
     title: "Bug Bounty Competition Platform",
@@ -121,13 +130,6 @@ const otherProjects = [
     tags: ["React.js", "Node.js", "Gemini API", "TailwindCSS"],
     links: { demo: "", github: "https://github.com/surendravarikallu/Algo-assistant" },
     icon: <MessageSquareCode className="w-8 h-8 text-orange-400" />,
-  },
-  {
-    title: "AdventureAura",
-    description: "A travel agency website allowing users to book tours and view destinations, showcasing frontend fundamentals.",
-    tags: ["HTML", "CSS", "JavaScript"],
-    links: { demo: "https://adventure-aura-ivory.vercel.app/", github: "https://github.com/surendravarikallu/adventure_aura" },
-    icon: <Plane className="w-8 h-8 text-blue-400" />,
   },
 ];
 
@@ -166,7 +168,7 @@ function FeaturedProjectCard({ project, index }: { project: typeof featuredProje
               </div>
             </div>
 
-            <p className="text-gray-400 mb-5 leading-relaxed flex-grow">{project.description}</p>
+            <p className="text-gray-400 mb-5 leading-relaxed">{project.description}</p>
 
             {/* Features list (for Skillnox) */}
             {'features' in project && project.features && (
@@ -210,44 +212,54 @@ function FeaturedProjectCard({ project, index }: { project: typeof featuredProje
             </div>
 
             {/* Actions */}
-            <div className="flex gap-4 pt-4 border-t border-neutral-800/50 mt-auto">
-              {project.links.github && (
-                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white hover:bg-white/5" asChild>
-                  <a href={project.links.github} target="_blank" rel="noopener noreferrer">
-                    <Github className="w-4 h-4 mr-2" />
-                    Code
-                  </a>
-                </Button>
-              )}
-              {project.links.demo ? (
-                <Button variant="ghost" size="sm" className="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 ml-auto" asChild>
-                  <a href={project.links.demo} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Live Demo
-                  </a>
-                </Button>
-              ) : 'isPrivate' in project && project.isPrivate ? (
-                <div className="ml-auto flex items-center gap-3">
-                  <span className="text-xs font-mono text-gray-500 uppercase tracking-widest flex items-center gap-2">
+            <div className="flex flex-col gap-3 pt-4 border-t border-neutral-800/50 mt-auto w-full">
+              {/* Repository Status Badge */}
+              <div className="flex items-center text-xs font-mono text-neutral-500">
+                {project.links.github ? (
+                  <span className="flex items-center gap-1.5 text-cyan-400/80">
+                    <Code2 className="w-3.5 h-3.5" /> Open Source
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1.5 text-neutral-500">
                     <Lock className="w-3.5 h-3.5" /> Private Repository
                   </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/50 text-xs"
-                    onClick={() => setIsModalOpen(true)}
-                  >
-                    <Key className="w-3.5 h-3.5 mr-1.5" />
-                    Request Access
-                  </Button>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-between items-center gap-2 w-full min-h-9">
+                <div className="flex gap-2">
+                  {project.links.github && (
+                    <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white hover:bg-white/5 h-9" asChild>
+                      <a href={project.links.github} target="_blank" rel="noopener noreferrer">
+                        <Github className="w-4 h-4 mr-2" />
+                        Code
+                      </a>
+                    </Button>
+                  )}
+                  
+                  {'isPrivate' in project && project.isPrivate && !project.links.github && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/50 text-xs h-9 px-3 flex items-center"
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      <Key className="w-3.5 h-3.5 mr-1" />
+                      Request Access
+                    </Button>
+                  )}
                 </div>
-              ) : (
-                !project.links.github && (
-                  <span className="text-xs font-mono text-gray-500 uppercase tracking-widest self-center flex items-center gap-2 ml-auto">
-                    <Lock className="w-3.5 h-3.5" /> Private Repository
-                  </span>
-                )
-              )}
+
+                {project.links.demo && (
+                  <Button variant="ghost" size="sm" className="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 ml-auto h-9" asChild>
+                    <a href={project.links.demo} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Live Demo
+                    </a>
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
 
@@ -278,7 +290,7 @@ function ProjectCard({ project, index }: { project: typeof otherProjects[0]; ind
                 {project.impact}
               </span>
             )}
-            <p className="text-gray-400 mb-6 flex-grow leading-relaxed">
+            <p className="text-gray-400 mb-6 leading-relaxed">
               {project.description}
             </p>
 
@@ -293,33 +305,47 @@ function ProjectCard({ project, index }: { project: typeof otherProjects[0]; ind
               ))}
             </div>
 
-            <div className="flex gap-4 pt-4 mt-auto border-t border-neutral-800/50">
-              {project.links.github && (
-                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white hover:bg-white/5" asChild>
-                  <a href={project.links.github} target="_blank" rel="noopener noreferrer">
-                    <Github className="w-4 h-4 mr-2" />
-                    Code
-                  </a>
-                </Button>
-              )}
-              {project.links.demo ? (
-                <Button variant="ghost" size="sm" className="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 ml-auto" asChild>
-                  <a href={project.links.demo} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Live Demo
-                  </a>
-                </Button>
-              ) : (
-                project.links.github && (
-                  <Button variant="ghost" size="sm" disabled className="text-gray-600 ml-auto cursor-not-allowed hover:bg-transparent">
-                    <CloudOff className="w-4 h-4 mr-2" />
-                    Not Deployed
+            <div className="flex flex-col gap-3 pt-4 border-t border-neutral-800/50 mt-auto w-full">
+              {/* Repository Status Badge */}
+              <div className="flex items-center text-xs font-mono text-neutral-500">
+                {project.links.github ? (
+                  <span className="flex items-center gap-1.5 text-cyan-400/80">
+                    <Code2 className="w-3.5 h-3.5" /> Open Source
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1.5 text-neutral-500">
+                    <Lock className="w-3.5 h-3.5" /> Private Repository
+                  </span>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-between items-center gap-2 w-full min-h-9">
+                {project.links.github && (
+                  <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white hover:bg-white/5 h-9" asChild>
+                    <a href={project.links.github} target="_blank" rel="noopener noreferrer">
+                      <Github className="w-4 h-4 mr-2" />
+                      Code
+                    </a>
                   </Button>
-                )
-              )}
-              {!project.links.github && !project.links.demo && (
-                <span className="text-xs font-mono text-gray-500 uppercase tracking-widest self-center flex items-center gap-2">🔒 Private Repository</span>
-              )}
+                )}
+
+                {project.links.demo ? (
+                  <Button variant="ghost" size="sm" className="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 ml-auto h-9" asChild>
+                    <a href={project.links.demo} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Live Demo
+                    </a>
+                  </Button>
+                ) : (
+                  !project.links.github && (
+                    <Button variant="ghost" size="sm" disabled className="text-gray-600 ml-auto cursor-not-allowed hover:bg-transparent h-9">
+                      <CloudOff className="w-4 h-4 mr-2" />
+                      Not Deployed
+                    </Button>
+                  )
+                )}
+              </div>
             </div>
           </div>
         </SpotlightCard>
@@ -336,9 +362,7 @@ export default function ProjectsSection() {
       <div className="relative z-10 w-full max-w-7xl mx-auto">
         {/* Featured Projects Header */}
         <ScrollReveal className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-600">
-            Featured Projects
-          </h2>
+          <TextReveal text="Featured Projects" className="text-4xl sm:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-600" />
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-600 mx-auto rounded-full"></div>
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-lg">
             Highlights from my work — production systems, hackathon wins, and emerging AI platforms.
@@ -354,9 +378,7 @@ export default function ProjectsSection() {
 
         {/* Other Projects Header */}
         <ScrollReveal className="text-center mb-12">
-          <h3 className="text-3xl sm:text-4xl font-bold mb-4 text-white">
-            Other Projects
-          </h3>
+          <TextReveal text="Other Projects" className="text-3xl sm:text-4xl font-bold mb-4 text-white" />
           <div className="w-16 h-0.5 bg-gradient-to-r from-gray-700 to-gray-500 mx-auto rounded-full"></div>
         </ScrollReveal>
 
