@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, useInView, useSpring, useMotionValue } from "framer-motion";
 import { TiltedCard } from "@/components/ui/tilted-card";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { TextReveal } from "@/components/animations/TextReveal";
 
 function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -19,13 +20,15 @@ function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: strin
   }, [inView, motionVal, value]);
 
   useEffect(() => {
-    const unsubscribe = springVal.on("change", (latest) => {
+    const unsubscribe = springVal.on("change", (latest: number) => {
       if (ref.current) {
-        ref.current.textContent = `${Math.round(latest * 10) / 10}${suffix}`;
+        const isInt = Number.isInteger(value);
+        const formatted = isInt ? Math.round(latest) : Math.round(latest * 10) / 10;
+        ref.current.textContent = `${formatted}${suffix}`;
       }
     });
     return unsubscribe;
-  }, [springVal, suffix]);
+  }, [springVal, suffix, value]);
 
   return <span ref={ref}>0{suffix}</span>;
 }
@@ -72,9 +75,7 @@ export default function AboutSection() {
           delay={0.2}
           yOffset={40}
         >
-          <h2 className="text-4xl font-bold mb-6">
-            About <span className="text-cyan-400">Me</span>
-          </h2>
+          <TextReveal text="About Me" className="text-4xl font-bold mb-6 justify-start" />
           <motion.div
             initial={{ width: 0 }}
             whileInView={{ width: 80 }}
@@ -84,7 +85,7 @@ export default function AboutSection() {
           />
 
           <p className="text-gray-300 leading-relaxed text-lg mb-6">
-            Full Stack Developer building <span className="text-cyan-400 font-semibold">production-grade web platforms</span> that solve real problems — from secure assessment systems serving 250+ users to management portals with real-time analytics.
+            Full Stack Developer building <span className="text-cyan-400 font-semibold">production-grade web platforms</span> that solve real problems — from secure assessment systems serving 5,000+ concurrent users to placement portals with real-time analytics.
           </p>
 
           <ul className="space-y-3 mb-8 text-gray-300 text-base">
@@ -106,18 +107,24 @@ export default function AboutSection() {
             </li>
           </ul>
 
-            <div className="grid grid-cols-2 gap-6 mb-8">
+            <div className="grid grid-cols-3 gap-4 mb-8">
             <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-cyan-500">
-              <h4 className="font-bold text-xl mb-1">
-                <AnimatedCounter value={1.5} suffix="+" />
+              <h4 className="font-bold text-lg sm:text-xl mb-1">
+                <AnimatedCounter value={5} suffix="K+" />
               </h4>
-              <p className="text-sm text-gray-400">Years Experience</p>
+              <p className="text-xs text-gray-400">Peak Users Load</p>
             </div>
             <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-purple-500">
-              <h4 className="font-bold text-xl mb-1">
-                <AnimatedCounter value={8} suffix="+" />
+              <h4 className="font-bold text-lg sm:text-xl mb-1">
+                <AnimatedCounter value={2} suffix="" />
               </h4>
-              <p className="text-sm text-gray-400">Projects Completed</p>
+              <p className="text-xs text-gray-400">Prod Systems</p>
+            </div>
+            <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-amber-500">
+              <h4 className="font-bold text-lg sm:text-xl mb-1">
+                <AnimatedCounter value={150} suffix="+" />
+              </h4>
+              <p className="text-xs text-gray-400">Community Led</p>
             </div>
           </div>
         </ScrollReveal>

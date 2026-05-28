@@ -24,7 +24,7 @@ export default function Footer() {
 
   const socialLinks = [
     { icon: Github, href: "https://github.com/surendravarikallu", label: "GitHub", hover: "hover:text-white hover:bg-white/10" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/surendra-varikallu-081914321/", label: "LinkedIn", hover: "hover:text-blue-400 hover:bg-blue-400/10" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/surendravarikallu/", label: "LinkedIn", hover: "hover:text-blue-400 hover:bg-blue-400/10" },
     { icon: XIcon, href: "https://x.com/surendravarikallu", label: "X (Twitter)", hover: "hover:text-white hover:bg-white/10" },
     { icon: Instagram, href: "https://www.instagram.com/_.mystic_soul.04/", label: "Instagram", hover: "hover:text-pink-500 hover:bg-pink-500/10" },
     { icon: Mail, href: "mailto:varikallusurendra@gmail.com", label: "Email", hover: "hover:text-cyan-400 hover:bg-cyan-400/10" },
@@ -34,7 +34,11 @@ export default function Footer() {
     e.preventDefault()
     const element = document.getElementById(href.substring(1))
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(element, { duration: 1.2 })
+      } else {
+        element.scrollIntoView({ behavior: "smooth" })
+      }
     }
   }
 

@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { ScrollReveal } from "@/components/animations/ScrollReveal"
+import { TextReveal } from "@/components/animations/TextReveal"
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -67,7 +68,7 @@ export default function ContactSection() {
 
   const socialLinks = [
     { icon: Github, href: "https://github.com/surendravarikallu", label: "GitHub", color: "hover:text-white" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/surendra-varikallu-081914321/", label: "LinkedIn", color: "hover:text-blue-400" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/surendravarikallu/", label: "LinkedIn", color: "hover:text-blue-400" },
     { icon: XIcon, href: "https://x.com/surendravarikallu", label: "X", color: "hover:text-white" },
     { icon: Instagram, href: "https://www.instagram.com/_.mystic_soul.04/", label: "Instagram", color: "hover:text-pink-500" },
   ]
@@ -83,11 +84,7 @@ export default function ContactSection() {
           yOffset={30}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              Get In Touch
-            </span>
-          </h2>
+          <TextReveal text="Get In Touch" className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent" />
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full"></div>
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-lg leading-relaxed">
             I'm always open to discussing new opportunities and interesting projects. Let's build something amazing together!

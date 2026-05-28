@@ -1,11 +1,12 @@
 "use client"
 
-import { motion, useMotionValue, useTransform, useSpring } from "framer-motion"
+import { motion, useMotionValue, useTransform, useSpring, useScroll } from "framer-motion"
 import { ArrowRight, Download, Github } from "lucide-react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import ShimmerButton from "@/components/ui/shimmer-button"
 import { useEffect } from "react"
+import { MagneticWrapper } from "@/components/animations/MagneticWrapper"
 
 const HeroScene = dynamic(() => import('@/components/3d/HeroScene'), { ssr: false })
 
@@ -17,6 +18,11 @@ export default function HeroSection() {
     const springConfig = { stiffness: 50, damping: 30 }
     const textX = useSpring(useTransform(mouseX, [0, 1, -1], [0, -12, 12]), springConfig)
     const textY = useSpring(useTransform(mouseY, [0, 1, -1], [0, -8, 8]), springConfig)
+
+    // Scroll-linked parallax and fade out
+    const { scrollY } = useScroll()
+    const contentY = useSpring(useTransform(scrollY, [0, 600], [0, -100]), { stiffness: 100, damping: 30 })
+    const contentOpacity = useTransform(scrollY, [0, 450], [1, 0])
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -31,14 +37,24 @@ export default function HeroSection() {
     }, [mouseX, mouseY])
 
     const scrollToProjects = () => {
-        document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
+        const element = document.getElementById("projects")
+        if (element) {
+            if ((window as any).lenis) {
+                (window as any).lenis.scrollTo(element, { duration: 1.2 })
+            } else {
+                element.scrollIntoView({ behavior: "smooth" })
+            }
+        }
     }
 
     return (
         <section id="home" className="h-screen w-full relative overflow-hidden bg-black">
             <HeroScene />
 
-                <div className="h-full w-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 text-center z-10 relative">
+                <motion.div 
+                    style={{ y: contentY, opacity: contentOpacity }}
+                    className="h-full w-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 text-center z-10 relative"
+                >
 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -69,7 +85,7 @@ export default function HeroSection() {
                         className="text-lg sm:text-xl text-gray-300 font-medium max-w-3xl mb-10 leading-relaxed"
                     >
                         Full Stack Developer building scalable platforms and real-world systems.{" "}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Creator of Skillnox</span> – a secure assessment platform used by 250+ students.
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Creator of Skillnox</span> – a secure assessment platform load-tested with 5,000+ concurrent users.
                     </motion.p>
 
                     <motion.div
@@ -78,29 +94,35 @@ export default function HeroSection() {
                         transition={{ duration: 0.8, delay: 0.7 }}
                         className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                     >
-                        <ShimmerButton className="shadow-2xl" onClick={scrollToProjects}>
-                            <span className="text-white text-sm font-semibold flex items-center gap-2">
-                                View Projects <ArrowRight className="w-4 h-4" />
-                            </span>
-                        </ShimmerButton>
+                        <MagneticWrapper range={60}>
+                            <ShimmerButton className="shadow-2xl" onClick={scrollToProjects}>
+                                <span className="text-white text-sm font-semibold flex items-center gap-2">
+                                    View Projects <ArrowRight className="w-4 h-4" />
+                                </span>
+                            </ShimmerButton>
+                        </MagneticWrapper>
 
-                        <Link
-                            href="/resume"
-                            className="px-6 py-3 rounded-full border border-gray-700 hover:border-cyan-500/50 hover:bg-gray-900/50 text-gray-300 hover:text-white transition-all duration-300 flex items-center gap-2 text-sm font-medium"
-                        >
-                            <Download className="w-4 h-4" /> View Resume
-                        </Link>
+                        <MagneticWrapper range={60}>
+                            <Link
+                                href="/resume"
+                                className="px-6 py-3 rounded-full border border-gray-700 hover:border-cyan-500/50 hover:bg-gray-900/50 text-gray-300 hover:text-white transition-all duration-300 flex items-center gap-2 text-sm font-medium"
+                            >
+                                <Download className="w-4 h-4" /> View Resume
+                            </Link>
+                        </MagneticWrapper>
 
-                        <a
-                            href="https://github.com/surendravarikallu"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="px-6 py-3 rounded-full border border-gray-700 hover:border-purple-500/50 hover:bg-gray-900/50 text-gray-300 hover:text-white transition-all duration-300 flex items-center gap-2 text-sm font-medium"
-                        >
-                            <Github className="w-4 h-4" /> GitHub
-                        </a>
+                        <MagneticWrapper range={60}>
+                            <a
+                                href="https://github.com/surendravarikallu"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-6 py-3 rounded-full border border-gray-700 hover:border-purple-500/50 hover:bg-gray-900/50 text-gray-300 hover:text-white transition-all duration-300 flex items-center gap-2 text-sm font-medium"
+                            >
+                                <Github className="w-4 h-4" /> GitHub
+                            </a>
+                        </MagneticWrapper>
                     </motion.div>
-                </div>
+                </motion.div>
         </section >
     )
 }
