@@ -85,7 +85,7 @@ export default function HeroSection() {
                         className="text-lg sm:text-xl text-gray-300 font-medium max-w-3xl mb-10 leading-relaxed"
                     >
                         Full Stack Developer building scalable platforms and real-world systems.{" "}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Creator of Skillnox</span> – a secure assessment platform load-tested with 5,000+ concurrent users.
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Creator of Skillnox & Skillnox.AI</span> – secure assessment platforms load-tested with 5,000+ concurrent users at 100% success rate.
                     </motion.p>
 
                     <motion.div

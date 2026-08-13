@@ -66,7 +66,7 @@ export default function SkillsSection() {
               Skills & Technologies
             </span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full animate-glow-line"></div>
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
             Here are the technologies and tools I work with to bring ideas to life
           </p>
@@ -83,11 +83,11 @@ export default function SkillsSection() {
                   {category.skills.map((skill) => (
                     <SpotlightCard
                       key={skill.name}
-                      className="group bg-neutral-900/50 border-neutral-800"
+                      className="group bg-neutral-900/50 border-neutral-800 skill-icon-glow"
                       spotlightColor="rgba(6, 182, 212, 0.2)"
                     >
                       <div className="relative z-10 flex items-center gap-3 p-4">
-                        <div className="transform group-hover:scale-110 transition-transform duration-300 shrink-0">
+                        <div className="transform group-hover:scale-110 transition-all duration-300 shrink-0 group-hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]">
                           <img
                             src={skill.icon}
                             alt={skill.name}

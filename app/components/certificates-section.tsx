@@ -153,7 +153,7 @@ export default function CertificatesSection() {
           className="text-center mb-16"
         >
           <TextReveal text="Certificates & Achievements" className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent" />
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full animate-glow-line"></div>
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
             Professional certifications and achievements that validate my skills and expertise
           </p>

@@ -80,8 +80,8 @@ The main `app/page.tsx` seamlessly renders these components in the following chr
   4. Web Dev Intern (May 2025 - June 2025)
 
 ### 6. `ProjectsSection` (`app/components/projects-section.tsx`)
-- **Logic:** Segmented precisely into "Featured Projects" (Skillnox, StudentConnect) and "Other Projects".
-- **Features:** Featured cards use explicit `flex-col` and `flex-grow` with `h-full` paradigms to guarantee strictly even row heights regardless of text density. Includes responsive image arrays and bulleted feature impacts.
+- **Logic:** Segmented precisely into "Featured Projects" (Skillnox.AI, Skillnox Platform, Global Smile) and "Other Projects".
+- **Features:** Featured cards use explicit `flex-col` and `flex-grow` with `h-full` paradigms to guarantee strictly even row heights regardless of text density. Includes private repository modals ("Request Access"), live deployment endpoints (`https://skillnoxai.kitaghire.in`), and bulleted feature impact metrics.
 
 ### 7. `CertificatesSection` (`app/components/certificates-section.tsx`)
 - **Logic:** Arranged explicitly across a multi-column CSS grid. 

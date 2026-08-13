@@ -271,7 +271,7 @@ export default function ExperienceSection() {
       <div className="relative z-10 max-w-5xl mx-auto">
         <ScrollReveal className="text-center mb-16">
           <TextReveal text="Experience & Journey" className="text-4xl sm:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-600" />
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-600 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-600 mx-auto rounded-full animate-glow-line"></div>
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-lg">
             My professional timeline — internships, leadership roles, and achievements.
           </p>

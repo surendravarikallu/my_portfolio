@@ -8,14 +8,14 @@ const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://surendravarikallu.dev'),
-  title: 'Surendra Varikallu | Full Stack Developer',
-  description: 'Full Stack Developer building scalable production systems like Skillnox, load-tested with 5,000+ concurrent users.',
+  title: 'Surendra Varikallu | Full Stack & AI Developer',
+  description: 'Full Stack & AI Developer building scalable platforms like Skillnox.AI and Skillnox, load-tested with 5,000+ concurrent users at 100% success rate.',
   alternates: {
     canonical: 'https://surendravarikallu.dev',
   },
   openGraph: {
     title: 'Surendra Varikallu Portfolio',
-    description: 'Full Stack Developer building real-world systems and scalable platforms',
+    description: 'Full Stack & AI Developer building real-world platforms and scalable AI assessment engines',
     url: 'https://surendravarikallu.dev',
     siteName: 'Surendra Portfolio',
     type: 'website',

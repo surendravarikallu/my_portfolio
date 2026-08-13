@@ -85,46 +85,46 @@ export default function AboutSection() {
           />
 
           <p className="text-gray-300 leading-relaxed text-lg mb-6">
-            Full Stack Developer building <span className="text-cyan-400 font-semibold">production-grade web platforms</span> that solve real problems — from secure assessment systems serving 5,000+ concurrent users to placement portals with real-time analytics.
+            Full Stack Developer building <span className="text-cyan-400 font-semibold">production-grade web platforms</span> that solve real problems — from Skillnox.AI (AI-driven technical assessment platform) to secure examination engines serving 5,000+ concurrent users with 100% success rate and single-digit millisecond latency.
           </p>
 
           <ul className="space-y-3 mb-8 text-gray-300 text-base">
             <li className="flex items-start gap-3">
               <span className="text-cyan-400 mt-1">▹</span>
-              Full Stack Developer focused on scalable web platforms
+              Full Stack Developer focused on scalable AI & web platforms
             </li>
             <li className="flex items-start gap-3">
               <span className="text-cyan-400 mt-1">▹</span>
-              Experience building real-world student and assessment systems
+              Creator of Skillnox.AI and Skillnox (KITAghire ecosystem)
             </li>
             <li className="flex items-start gap-3">
               <span className="text-cyan-400 mt-1">▹</span>
-              Proficient in React, Next.js, Node.js, Express, and PostgreSQL
+              Proficient in React, Next.js, Node.js, Express, PostgreSQL, and Local LLMs (Qwen)
             </li>
             <li className="flex items-start gap-3">
               <span className="text-cyan-400 mt-1">▹</span>
-              Passionate about developer tools, security, and clean architecture
+              Passionate about AI evaluations, proctoring security, and high-concurrency systems
             </li>
           </ul>
 
             <div className="grid grid-cols-3 gap-4 mb-8">
-            <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-cyan-500">
+            <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-cyan-500 transition-all duration-500 hover:shadow-[0_0_20px_rgba(6,182,212,0.25)] hover:bg-neutral-800/80">
               <h4 className="font-bold text-lg sm:text-xl mb-1">
                 <AnimatedCounter value={5} suffix="K+" />
               </h4>
               <p className="text-xs text-gray-400">Peak Users Load</p>
             </div>
-            <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-purple-500">
+            <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-purple-500 transition-all duration-500 hover:shadow-[0_0_20px_rgba(139,92,246,0.25)] hover:bg-neutral-800/80">
+              <h4 className="font-bold text-lg sm:text-xl mb-1">
+                <AnimatedCounter value={100} suffix="%" />
+              </h4>
+              <p className="text-xs text-gray-400">Success Rate (5K VUs)</p>
+            </div>
+            <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-amber-500 transition-all duration-500 hover:shadow-[0_0_20px_rgba(245,158,11,0.25)] hover:bg-neutral-800/80">
               <h4 className="font-bold text-lg sm:text-xl mb-1">
                 <AnimatedCounter value={2} suffix="" />
               </h4>
-              <p className="text-xs text-gray-400">Prod Systems</p>
-            </div>
-            <div className="p-4 bg-neutral-800 rounded-lg border-l-4 border-amber-500">
-              <h4 className="font-bold text-lg sm:text-xl mb-1">
-                <AnimatedCounter value={150} suffix="+" />
-              </h4>
-              <p className="text-xs text-gray-400">Community Led</p>
+              <p className="text-xs text-gray-400">Prod Systems Active</p>
             </div>
           </div>
         </ScrollReveal>

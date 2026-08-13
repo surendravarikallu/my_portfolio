@@ -8,84 +8,95 @@ import SpotlightCard from "@/components/ui/spotlight-card";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { RequestAccessModal } from "@/components/ui/request-access-modal";
+import { GradientBorder } from "@/components/animations/GradientBorder";
 
 const featuredProjects = [
   {
-    title: "Skillnox Platform",
-    label: "⭐ Featured Project",
-    description: "A secure assessment platform designed for large-scale college-level testing with advanced anti-cheating mechanisms.",
+    title: "Skillnox.AI",
+    label: "Flagship AI Platform",
+    description: "An intelligent, AI-powered technical assessment platform deployed as the successor to Skillnox. Features privacy-first local LLM evaluations (Qwen) combined with adaptive technical interviews and proctoring security.",
     features: [
-      "5,000+ concurrent users",
-      "99.66% success under peak exam load",
-      "Tab switching detection",
-      "Shortcut / Windows key blocking",
-      "Developer tools disabled",
-      "AI extension blocking",
+      "Privacy-first local LLM (Qwen) integration",
+      "Real-time AI interview & response evaluation",
+      "Adaptive technical assessment workflows",
+      "Anti-cheating & proctoring security",
+      "Child platform of KITAghire ecosystem",
+      "Scalable multi-tenant assessment engine",
     ],
-    tags: ["React", "Node.js", "Express", "PostgreSQL"],
+    tags: ["React.js", "Local LLMs (Qwen)", "Node.js", "PostgreSQL", "Tailwind CSS"],
+    links: { demo: "https://skillnoxai.kitaghire.in", github: "" },
+    icon: <Brain className="w-8 h-8 text-purple-400" />,
+    impact: "Live AI Platform • Successor to Skillnox",
+    isPrivate: true,
+    gradient: "from-purple-500/20 to-pink-600/20",
+    borderGlow: "hover:border-purple-500/40",
+    impactDetails: [
+      "Deployed live as the successor to Skillnox within the KITAghire ecosystem",
+      "Autonomous AI interview evaluation with privacy-first LLM inference",
+      "Engineered for high-concurrency technical testing & real-time feedback",
+    ],
+  },
+  {
+    title: "Skillnox Platform",
+    label: "Proven Assessment Engine",
+    description: "A secure assessment platform designed for large-scale college testing with anti-cheating mechanisms and extreme scalability.",
+    features: [
+      "5,000 concurrent virtual users",
+      "100.00% request success rate (k6 load test)",
+      "3.97 ms avg latency under peak load",
+      "Tab switching & shortcut key blocking",
+      "Developer tools & AI extension blocking",
+      "100k+ completed exams processed",
+    ],
+    tags: ["React", "Node.js", "Express", "PostgreSQL", "Redis", "PM2 Cluster"],
     links: { demo: "https://skillnox.kitaghire.in", github: "" },
     icon: <Shield className="w-8 h-8 text-cyan-400" />,
-    impact: "5,000+ Peak Users • College Deployed",
+    impact: "100% Success at 5,000 VUs • 3.97ms Latency",
     isPrivate: true,
     gradient: "from-cyan-500/20 to-blue-600/20",
     borderGlow: "hover:border-cyan-500/40",
     impactDetails: [
-      "Used by final-year and pre-final-year students",
-      "Load tested with 99.66% success rate under peak load",
-      "Actively deployed for secure online assessments",
+      "Used by final-year and pre-final-year students across college departments",
+      "Load tested with 100.00% success rate across 146,045 HTTP requests",
+      "Actively deployed for secure online assessments (skillnox.kitaghire.in)",
     ],
   },
   {
-    title: "Global Smile",
-    label: "🚀 AI Dental App",
-    description: "Advanced prosthodontic care platform without borders. Integrates AI-powered smile visualization, treatment journeys, and global dental tourism coordination.",
+    title: "KITAghire.in",
+    label: "Active College Portal",
+    description: "A live college training and placement portal actively used at college scale to manage placement drives, student profiles, and recruitment records, serving as the parent ecosystem.",
     features: [
-      "AI smile visualization",
-      "Treatment journey tracking",
-      "Dental tourism workflow",
-      "Offline PWA functionality",
-      "Transparent treatment estimates",
-      "Virtual dental consultations",
+      "Parent platform of Skillnox & Skillnox.AI",
+      "Active college training & placement portal",
+      "Comprehensive TPO analytics dashboard",
+      "Placement drive & recruitment workflows",
+      "Student profile & resume management",
+      "Multi-department administrative controls",
     ],
-    tags: ["React.js", "Vite", "Tailwind CSS", "PWA"],
-    links: { demo: "http://global-smile-lc5h.onrender.com/", github: "https://github.com/surendravarikallu/Global-Smile" },
-    icon: <Rocket className="w-8 h-8 text-amber-400" />,
-    impact: "AI-Powered Dental Care",
-    gradient: "from-yellow-500/20 to-amber-600/20",
-    borderGlow: "hover:border-amber-400/40",
+    tags: ["React", "Node.js", "Express", "PostgreSQL", "Tailwind CSS"],
+    links: { demo: "https://kitaghire.in", github: "" },
+    icon: <Users className="w-8 h-8 text-emerald-400" />,
+    impact: "Parent Platform • Active College Scale",
+    isPrivate: true,
+    gradient: "from-emerald-500/20 to-teal-600/20",
+    borderGlow: "hover:border-emerald-500/40",
     impactDetails: [
-      "AI-driven smile simulation rendering",
-      "Comprehensive treatment tracker",
-      "Dental tourism coordinator workflow",
-    ],
-  },
-  {
-    title: "Skillnox.AI",
-    label: "🚀 In Development",
-    description: "An intelligent AI-powered interview platform for technical assessments using React.js and local LLMs (Qwen). Brings AI-driven evaluation to the Skillnox ecosystem.",
-    features: [
-      "AI-driven evaluation",
-      "Local LLM integration",
-      "Technical assessments",
-      "Interview simulation",
-      "Real-time feedback",
-      "Adaptive questioning",
-    ],
-    tags: ["React.js", "Local LLMs (Qwen)", "Tailwind CSS"],
-    links: { demo: "", github: "" },
-    icon: <Brain className="w-8 h-8 text-purple-400" />,
-    impact: "AI-Powered",
-    gradient: "from-purple-500/20 to-pink-600/20",
-    borderGlow: "hover:border-purple-500/40",
-    impactDetails: [
-      "Extends the Skillnox ecosystem with AI",
-      "Uses local LLMs for privacy-first evaluation",
-      "Designed for scalable technical hiring",
+      "Parent ecosystem for Skillnox and Skillnox.AI",
+      "Actively manages placement drives & student recruitment records",
+      "Comprehensive TPO dashboard with real-time drive analytics",
     ],
   },
 ];
 
 const otherProjects = [
+  {
+    title: "Global Smile",
+    description: "Advanced prosthodontic care platform without borders. Integrates AI-powered smile visualization, treatment journeys, and global dental tourism coordination.",
+    tags: ["React.js", "Vite", "Tailwind CSS", "PWA"],
+    links: { demo: "http://global-smile-lc5h.onrender.com/", github: "https://github.com/surendravarikallu/Global-Smile" },
+    icon: <Rocket className="w-8 h-8 text-amber-400" />,
+    impact: "AI-Powered Dental Care",
+  },
   {
     title: "Student Connect",
     description: "A collaborative platform developed during a hackathon to help students connect, share academic resources, and collaborate on projects. Secured 3rd prize at the college hackathon.",
@@ -93,14 +104,6 @@ const otherProjects = [
     links: { demo: "http://studentconnect-sjc1.onrender.com/", github: "https://github.com/surendravarikallu/HSJM" },
     icon: <Trophy className="w-8 h-8 text-amber-400" />,
     impact: "Hackathon 3rd Prize",
-  },
-  {
-    title: "KITAghire.in",
-    description: "A live college training and placement portal actively used at college scale to manage placement drives, student profiles, and recruitment records, featuring a comprehensive TPO dashboard and analytics.",
-    tags: ["React", "Node.js", "PostgreSQL"],
-    links: { demo: "https://kitaghire.in", github: "" },
-    icon: <Users className="w-8 h-8 text-emerald-400" />,
-    impact: "Active College Portal",
   },
   {
     title: "Bug Bounty Competition Platform",
@@ -139,6 +142,7 @@ function FeaturedProjectCard({ project, index }: { project: typeof featuredProje
   return (
     <ScrollReveal delay={index * 0.15} className="h-full">
       <motion.div whileHover={{ y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 20 }} className="h-full">
+        <GradientBorder className="h-full" speed={4 + index}>
         <SpotlightCard className={`h-full bg-neutral-900/80 border-neutral-800 ${project.borderGlow} transition-all duration-300`}>
           <div className="p-6 sm:p-8 relative z-20 h-full flex flex-col">
             {/* Label */}
@@ -269,6 +273,7 @@ function FeaturedProjectCard({ project, index }: { project: typeof featuredProje
             projectTitle={project.title} 
           />
         </SpotlightCard>
+        </GradientBorder>
       </motion.div>
     </ScrollReveal>
   );
@@ -359,11 +364,23 @@ export default function ProjectsSection() {
     <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-clip bg-neutral-950">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-neutral-950 to-black"></div>
 
+      {/* Floating Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="particle w-1.5 h-1.5 bg-cyan-400/40 top-[15%] left-[10%]" style={{"--duration": "7s", "--delay": "0s"} as React.CSSProperties} />
+        <div className="particle w-1 h-1 bg-purple-400/30 top-[25%] left-[85%]" style={{"--duration": "9s", "--delay": "1s"} as React.CSSProperties} />
+        <div className="particle w-2 h-2 bg-cyan-400/20 top-[45%] left-[20%]" style={{"--duration": "11s", "--delay": "2s"} as React.CSSProperties} />
+        <div className="particle w-1 h-1 bg-purple-500/40 top-[35%] left-[70%]" style={{"--duration": "8s", "--delay": "0.5s"} as React.CSSProperties} />
+        <div className="particle w-1.5 h-1.5 bg-pink-400/25 top-[60%] left-[50%]" style={{"--duration": "10s", "--delay": "3s"} as React.CSSProperties} />
+        <div className="particle w-1 h-1 bg-cyan-300/35 top-[10%] left-[45%]" style={{"--duration": "6s", "--delay": "1.5s"} as React.CSSProperties} />
+        <div className="particle w-2 h-2 bg-purple-400/15 top-[70%] left-[80%]" style={{"--duration": "12s", "--delay": "4s"} as React.CSSProperties} />
+        <div className="particle w-1 h-1 bg-cyan-400/30 top-[80%] left-[30%]" style={{"--duration": "9s", "--delay": "2.5s"} as React.CSSProperties} />
+      </div>
+
       <div className="relative z-10 w-full max-w-7xl mx-auto">
         {/* Featured Projects Header */}
         <ScrollReveal className="text-center mb-16">
           <TextReveal text="Featured Projects" className="text-4xl sm:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-600" />
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-600 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-600 mx-auto rounded-full animate-glow-line"></div>
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-lg">
             Highlights from my work — production systems, hackathon wins, and emerging AI platforms.
           </p>
@@ -385,7 +402,9 @@ export default function ProjectsSection() {
         {/* Other Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {otherProjects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} />
+            <ScrollReveal key={project.title} delay={index * 0.08} blur={true}>
+              <ProjectCard project={project} index={index} />
+            </ScrollReveal>
           ))}
         </div>
 
