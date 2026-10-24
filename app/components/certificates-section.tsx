@@ -52,6 +52,28 @@ const certificates = [
     isLinkedIn: true,
   },
   {
+    title: "AWS Certified AI Practitioner",
+    issuer: "Amazon Web Services (AWS)",
+    date: "2026",
+    description: "Earned industry-recognized AWS certification validating foundational knowledge of artificial intelligence, machine learning concepts, prompt engineering, generative AI workloads, and responsible AI governance across AWS cloud infrastructure.",
+    logo: "/aws-logo.svg",
+    color: "from-amber-500 to-orange-500",
+    link: "https://www.linkedin.com/posts/surendravarikallu_aws-artificialintelligence-generativeai-share-7520490773629419520-RNBx/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
+    buttonLabel: "View on LinkedIn",
+    isLinkedIn: true,
+  },
+  {
+    title: "SAP Certified Associate — ABAP on SAP HANA",
+    issuer: "SAP",
+    date: "2026",
+    description: "Certified by SAP for modern back-end enterprise engineering and ABAP Cloud paradigms. Validated proficiency in database-optimized programming, Core Data Services (CDS), ABAP RESTful Application Programming (RAP), and SAP HANA architecture.",
+    logo: "/sap-logo.svg",
+    color: "from-blue-600 to-cyan-500",
+    link: "https://www.linkedin.com/posts/surendravarikallu_sap-abapcloud-backenddevelopment-share-7520490464433762304-4uaa/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFF4qGEBjEyvbPo47l2yrisvrC8XMS1Sm30",
+    buttonLabel: "View on LinkedIn",
+    isLinkedIn: true,
+  },
+  {
     title: "Google Student Ambassador",
     issuer: "Google",
     date: "2025",
@@ -254,7 +276,7 @@ export default function CertificatesSection() {
           className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6"
         >
           {[
-            { number: "8+", label: "Certifications & Events" },
+            { number: "12+", label: "Certifications & Events" },
             { number: "3+", label: "Internships" },
             { number: "100%", label: "Completion Rate" },
           ].map((stat: { number: string, label: string }) => (
