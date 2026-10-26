@@ -14,7 +14,8 @@ const navItems = [
   { name: "Contact", href: "#contact" },
 ]
 
-const socialLinks = [
+const externalLinks = [
+  { icon: FileText, href: "/resume", label: "Resume", color: "hover:text-cyan-400" },
   { icon: Github, href: "https://github.com/surendravarikallu", label: "GitHub", color: "hover:text-white" },
   { icon: Linkedin, href: "https://www.linkedin.com/in/surendravarikallu/", label: "LinkedIn", color: "hover:text-blue-400" },
 ]
@@ -100,33 +101,21 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* External links: Dedicated Resume Button + Social Icons */}
-            <div className="ml-4 pl-4 border-l border-neutral-700/80 flex items-center gap-3">
-              <a
-                href="/resume"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="View Format-Protected Official Resume"
-                className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-gray-200 bg-neutral-900/90 border border-neutral-700/80 hover:border-cyan-400/60 hover:text-cyan-300 hover:bg-cyan-500/10 transition-all duration-200 shadow-sm"
-              >
-                <FileText className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
-                <span>Resume</span>
-              </a>
-
-              <div className="flex items-center gap-1">
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={link.label}
-                    className={`p-2 text-gray-400 ${link.color} transition-colors duration-200`}
-                  >
-                    <link.icon className="w-4 h-4" />
-                  </a>
-                ))}
-              </div>
+            {/* External icon links: Resume, GitHub, LinkedIn (Icon-only, no text) */}
+            <div className="ml-4 pl-4 border-l border-neutral-700/80 flex items-center gap-1">
+              {externalLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={link.label}
+                  aria-label={link.label}
+                  className={`p-2 text-gray-400 ${link.color} transition-colors duration-200`}
+                >
+                  <link.icon className="w-4 h-4" />
+                </a>
+              ))}
             </div>
           </div>
 
@@ -167,31 +156,21 @@ export default function Navbar() {
                 </motion.button>
               ))}
 
-              {/* Mobile external links row */}
-              <div className="pt-4 mt-2 border-t border-neutral-800 px-3 flex flex-col gap-3">
-                <a
-                  href="/resume"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-semibold text-cyan-300 bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors"
-                >
-                  <FileText className="w-4 h-4 text-cyan-400" />
-                  <span>View Verified Resume</span>
-                </a>
-                <div className="flex items-center justify-center gap-6">
-                  {socialLinks.map((link) => (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`p-2 text-gray-400 ${link.color} transition-colors flex items-center gap-2 text-sm`}
-                    >
-                      <link.icon className="w-4 h-4" />
-                      <span>{link.label}</span>
-                    </a>
-                  ))}
-                </div>
+              {/* Mobile external links row - Icon buttons only */}
+              <div className="pt-4 mt-2 border-t border-neutral-800 px-3 flex items-center justify-center gap-6">
+                {externalLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={link.label}
+                    aria-label={link.label}
+                    className={`p-2 text-gray-400 ${link.color} transition-colors duration-200`}
+                  >
+                    <link.icon className="w-5 h-5" />
+                  </a>
+                ))}
               </div>
             </div>
           </motion.div>
