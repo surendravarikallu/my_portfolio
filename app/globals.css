@@ -47,8 +47,10 @@ html.lenis, html.lenis body {
   overscroll-behavior: contain;
 }
 
-.lenis-stopped {
-  overflow: hidden;
+.lenis-stopped,
+html.lenis-stopped,
+body.lenis-stopped {
+  overflow: hidden !important;
 }
 
 .lenis-scrolling iframe {

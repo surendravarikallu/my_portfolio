@@ -1,20 +1,27 @@
 "use client";
 
 import React from "react"
-import { ShieldAlert, Download, ExternalLink } from "lucide-react"
+import { ShieldCheck, Mail, ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 
 export default function ResumePage() {
   return (
     <div className="min-h-screen bg-neutral-950 flex flex-col items-center pt-8 pb-8 px-4 relative">
       <div className="w-full max-w-5xl flex justify-between items-center mb-6 z-20 flex-wrap gap-4">
-        <Link href="/" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors flex items-center gap-2">
-          &larr; Back to Portfolio
+        <Link href="/" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors flex items-center gap-2 text-sm">
+          <ArrowLeft className="w-4 h-4" /> Back to Portfolio
         </Link>
-        <div className="flex items-center gap-2 text-neutral-400 text-sm bg-neutral-900/50 px-3 py-1.5 rounded-full border border-neutral-800">
-          <ShieldAlert className="w-4 h-4 text-emerald-500" />
-          <span>View Only Mode (Copy & Download Restricted)</span>
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2 text-neutral-300 text-xs sm:text-sm bg-neutral-900/90 px-3.5 py-1.5 rounded-full border border-neutral-800 shadow-sm font-mono">
+            <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
+            <span>Official Candidate Copy • Placement Verification Active</span>
+          </div>
+          <Link
+            href="/#contact"
+            className="text-xs sm:text-sm px-4 py-1.5 rounded-full bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:text-white font-medium transition-colors flex items-center gap-1.5"
+          >
+            <Mail className="w-3.5 h-3.5" /> Recruiters: Request ATS PDF
+          </Link>
         </div>
       </div>
 

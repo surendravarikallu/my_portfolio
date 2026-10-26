@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useMotionValue, useTransform, useSpring, useScroll } from "framer-motion"
-import { ArrowRight, Download, Github } from "lucide-react"
+import { ArrowRight, FileText, Github } from "lucide-react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import ShimmerButton from "@/components/ui/shimmer-button"
@@ -107,7 +107,7 @@ export default function HeroSection() {
                                 href="/resume"
                                 className="px-6 py-3 rounded-full border border-gray-700 hover:border-cyan-500/50 hover:bg-gray-900/50 text-gray-300 hover:text-white transition-all duration-300 flex items-center gap-2 text-sm font-medium"
                             >
-                                <Download className="w-4 h-4" /> View Resume
+                                <FileText className="w-4 h-4 text-cyan-400" /> View Resume
                             </Link>
                         </MagneticWrapper>
 
