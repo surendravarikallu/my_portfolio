@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface ScrollRevealProps {
@@ -16,49 +14,49 @@ interface ScrollRevealProps {
 export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
   delay = 0,
-  yOffset = 50,
+  yOffset = 30,
   className = "",
-  blur = false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (prefersReducedMotion || !containerRef.current) return;
+    if (prefersReducedMotion) {
+      setIsVisible(true);
+      return;
+    }
 
-    gsap.registerPlugin(ScrollTrigger);
-    
     const element = containerRef.current;
-    
-    const ctx = gsap.context(() => {
-        gsap.fromTo(
-            element,
-            {
-              y: yOffset,
-              opacity: 0,
-              filter: blur ? "blur(10px)" : "none",
-            },
-            {
-              y: 0,
-              opacity: 1,
-              filter: "blur(0px)",
-              duration: 1.2,
-              delay: delay,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: element,
-                start: "top 85%",
-                toggleActions: "play none none reverse",
-              },
-            }
-          );
-    }, element);
+    if (!element) return;
 
-    return () => ctx.revert();
-  }, [delay, yOffset, blur, prefersReducedMotion]);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(element);
+        }
+      },
+      { rootMargin: "0px 0px -20px 0px", threshold: 0.05 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [prefersReducedMotion]);
 
   return (
-    <div ref={containerRef} className={className}>
+    <div
+      ref={containerRef}
+      className={className}
+      style={{
+        opacity: isVisible || prefersReducedMotion ? 1 : 0,
+        transform: isVisible || prefersReducedMotion ? "translate3d(0, 0, 0)" : `translate3d(0, ${yOffset}px, 0)`,
+        transition: prefersReducedMotion
+          ? "none"
+          : `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
+        willChange: isVisible ? "auto" : "opacity, transform",
+      }}
+    >
       {children}
     </div>
   );

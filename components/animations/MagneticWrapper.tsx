@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useSpring } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useCallback } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface MagneticWrapperProps {
@@ -13,54 +13,64 @@ interface MagneticWrapperProps {
 
 export const MagneticWrapper: React.FC<MagneticWrapperProps> = ({
   children,
-  range = 45,
-  strength = 0.35,
+  range = 60,
+  strength = 0.3,
   className = "",
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<DOMRect | null>(null);
   const prefersReducedMotion = useReducedMotion();
-  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  // Elastic spring physics configurations
-  const springConfig = { stiffness: 120, damping: 15, mass: 0.8 };
-  const x = useSpring(0, springConfig);
-  const y = useSpring(0, springConfig);
+  // Elastic spring physics bypasses React reconciliation
+  const x = useSpring(0, { stiffness: 180, damping: 16, mass: 0.6 });
+  const y = useSpring(0, { stiffness: 180, damping: 16, mass: 0.6 });
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (prefersReducedMotion || !ref.current) return;
-    const { clientX, clientY } = e;
-    const { left, top, width, height } = ref.current.getBoundingClientRect();
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
-    
-    // Proportional hover pull within a maximum range
-    const distanceX = clientX - centerX;
-    const distanceY = clientY - centerY;
-    
-    // Check if mouse is within magnetic influence range
-    const absoluteDistance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-    if (absoluteDistance < range) {
-      setPosition({ x: distanceX * strength, y: distanceY * strength });
-    } else {
-      setPosition({ x: 0, y: 0 });
+  const handleMouseEnter = useCallback(() => {
+    if (ref.current) {
+      rectRef.current = ref.current.getBoundingClientRect();
     }
-  };
+  }, []);
 
-  const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 });
-  };
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (prefersReducedMotion || !ref.current) return;
+      if (!rectRef.current) {
+        rectRef.current = ref.current.getBoundingClientRect();
+      }
 
-  useEffect(() => {
-    x.set(position.x);
-    y.set(position.y);
-  }, [position, x, y]);
+      const rect = rectRef.current;
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+
+      if (dist < range) {
+        x.set((e.clientX - centerX) * strength);
+        y.set((e.clientY - centerY) * strength);
+      } else {
+        x.set(0);
+        y.set(0);
+      }
+    },
+    [range, strength, prefersReducedMotion, x, y]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    x.set(0);
+    y.set(0);
+    rectRef.current = null;
+  }, [x, y]);
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div
       ref={ref}
+      style={{ x, y }}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ x, y }}
       className={`inline-block ${className}`}
     >
       {children}

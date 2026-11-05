@@ -8,11 +8,11 @@ import { Mail, Phone, MapPin, Send, Github, Linkedin, Instagram, Globe } from "l
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import emailjs from '@emailjs/browser'
 import SpotlightCard from "@/components/ui/spotlight-card"
+import { MagneticWrapper } from "@/components/animations/MagneticWrapper"
 
 const XIcon = ({ size = 24, className }: { size?: number | string, className?: string }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className}>
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
     <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
   </svg>
 )
@@ -32,7 +32,7 @@ export default function ContactSection() {
     setSubmitStatus('idle')
 
     try {
-      // Initialize EmailJS with your public key
+      const emailjs = (await import('@emailjs/browser')).default;
       emailjs.init("f29AK1znO_Oxxaruo")
 
       const result = await emailjs.send(
@@ -67,14 +67,14 @@ export default function ContactSection() {
   }
 
   const socialLinks = [
-    { icon: Github, href: "https://github.com/surendravarikallu", label: "GitHub", color: "hover:text-white" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/surendravarikallu/", label: "LinkedIn", color: "hover:text-blue-400" },
-    { icon: XIcon, href: "https://x.com/surendravarikallu", label: "X", color: "hover:text-white" },
-    { icon: Instagram, href: "https://www.instagram.com/_.mystic_soul.04/", label: "Instagram", color: "hover:text-pink-500" },
+    { icon: Github, href: "https://github.com/surendravarikallu", label: "GitHub Profile", color: "hover:text-white" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/surendravarikallu/", label: "LinkedIn Profile", color: "hover:text-blue-400" },
+    { icon: XIcon, href: "https://x.com/surendravarikallu", label: "X Profile", color: "hover:text-white" },
+    { icon: Instagram, href: "https://www.instagram.com/_.mystic_soul.04/", label: "Instagram Profile", color: "hover:text-pink-500" },
   ]
 
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-black">
+    <section id="contact" aria-label="Contact Surendra Varikallu" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-black">
       {/* Background Grid */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-10 pointer-events-none"></div>
 
@@ -84,10 +84,14 @@ export default function ContactSection() {
           yOffset={30}
           className="text-center mb-16"
         >
-          <TextReveal text="Get In Touch" className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent" />
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full animate-glow-line"></div>
-          <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-lg leading-relaxed">
-            I'm always open to discussing new opportunities and interesting projects. Let's build something amazing together!
+          <p className="text-xs font-mono font-medium tracking-[0.25em] text-cyan-400/90 uppercase mb-2">
+            // 06. CONNECT & COLLABORATE
+          </p>
+          <h2 className="text-3xl sm:text-5xl font-bold mb-4 text-titanium tracking-tight">
+            Get In Touch
+          </h2>
+          <p className="text-zinc-400 mt-3 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
+            I'm always open to discussing engineering roles, distributed systems, and scalable AI platforms. Let's build something extraordinary.
           </p>
         </ScrollReveal>
 
@@ -97,47 +101,47 @@ export default function ContactSection() {
             delay={0.2}
             className="h-full"
           >
-            <SpotlightCard className="h-full bg-neutral-900/50 border-neutral-800 rounded-2xl shadow-2xl backdrop-blur-sm">
+            <SpotlightCard className="h-full bg-zinc-950/70 border-zinc-800/80 rounded-2xl shadow-[0_4px_25px_rgba(0,0,0,0.6)] backdrop-blur-sm">
               <div className="p-6 sm:p-8 h-full flex flex-col relative z-20">
-                <h3 className="text-2xl font-bold text-white mb-8">Let's Connect</h3>
+                <h3 className="text-2xl font-bold text-white mb-8 tracking-tight">Let's Connect</h3>
 
                 <div className="space-y-8">
                   <div className="flex items-center space-x-6">
-                    <div className="p-4 bg-emerald-500/10 rounded-full border border-emerald-500/20 text-emerald-400 shrink-0">
-                      <Globe className="h-6 w-6" />
+                    <div className="p-3.5 bg-zinc-900 rounded-xl border border-zinc-800 text-emerald-400 shrink-0">
+                      <Globe className="h-5 w-5" aria-hidden="true" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-gray-400 text-sm font-medium uppercase tracking-wide">Website</p>
-                      <a href="https://surendravarikallu.dev" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-emerald-400 transition-colors break-all">surendravarikallu.dev</a>
+                      <p className="text-zinc-400 text-xs font-mono uppercase tracking-wide">Website</p>
+                      <a href="https://surendravarikallu.dev" target="_blank" rel="noopener noreferrer" className="text-white font-medium hover:text-cyan-400 transition-colors break-all">surendravarikallu.dev</a>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-6">
-                    <div className="p-4 bg-cyan-500/10 rounded-full border border-cyan-500/20 text-cyan-400 shrink-0">
-                      <Mail className="h-6 w-6" />
+                    <div className="p-3.5 bg-zinc-900 rounded-xl border border-zinc-800 text-cyan-400 shrink-0">
+                      <Mail className="h-5 w-5" aria-hidden="true" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-gray-400 text-sm font-medium uppercase tracking-wide">Email</p>
+                      <p className="text-zinc-400 text-xs font-mono uppercase tracking-wide">Email</p>
                       <a href="mailto:varikallusurendra@gmail.com" className="text-white font-medium hover:text-cyan-400 transition-colors break-all">varikallusurendra@gmail.com</a>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-6">
-                    <div className="p-4 bg-purple-500/10 rounded-full border border-purple-500/20 text-purple-400">
-                      <Phone className="h-6 w-6" />
+                    <div className="p-3.5 bg-zinc-900 rounded-xl border border-zinc-800 text-zinc-300">
+                      <Phone className="h-5 w-5" aria-hidden="true" />
                     </div>
                     <div>
-                      <p className="text-gray-400 text-sm font-medium uppercase tracking-wide">Phone</p>
+                      <p className="text-zinc-400 text-xs font-mono uppercase tracking-wide">Phone</p>
                       <p className="text-white font-medium">+91 9392423976</p>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-6">
-                    <div className="p-4 bg-pink-500/10 rounded-full border border-pink-500/20 text-pink-400">
-                      <MapPin className="h-6 w-6" />
+                    <div className="p-3.5 bg-zinc-900 rounded-xl border border-zinc-800 text-zinc-300">
+                      <MapPin className="h-5 w-5" aria-hidden="true" />
                     </div>
                     <div>
-                      <p className="text-gray-400 text-sm font-medium uppercase tracking-wide">Location</p>
+                      <p className="text-zinc-400 text-xs font-mono uppercase tracking-wide">Location</p>
                       <p className="text-white font-medium">Guntur, Andhra Pradesh, India</p>
                     </div>
                   </div>
@@ -145,23 +149,22 @@ export default function ContactSection() {
 
                 {/* Social Links */}
                 <div className="mt-12 pt-8 border-t border-neutral-800">
-                  <p className="text-gray-400 text-sm mb-6 font-medium">Follow me elsewhere</p>
+                  <p className="text-gray-300 text-sm mb-6 font-medium">Follow me elsewhere</p>
                   <div className="flex space-x-4">
-                    {socialLinks.map((social, index) => (
-                      <motion.a
-                        key={social.label}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.3 + index * 0.1 }}
-                        whileHover={{ scale: 1.2, y: -4 }}
-                        className={`p-3 bg-neutral-800 rounded-full text-gray-400 ${social.color} transition-all duration-300 hover:bg-neutral-700`}
-                      >
-                        {React.createElement(social.icon, { size: 20 })}
-                      </motion.a>
+                    {socialLinks.map((social) => (
+                      <MagneticWrapper key={social.label} range={40} strength={0.35}>
+                        <motion.a
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={social.label}
+                          initial={false}
+                          whileHover={{ scale: 1.15, y: -2 }}
+                          className={`p-3 bg-neutral-800 rounded-full text-gray-300 ${social.color} transition-all duration-300 hover:bg-neutral-700 flex items-center justify-center`}
+                        >
+                          {React.createElement(social.icon, { size: 20 })}
+                        </motion.a>
+                      </MagneticWrapper>
                     ))}
                   </div>
                 </div>
@@ -179,7 +182,7 @@ export default function ContactSection() {
               className="bg-neutral-900/50 backdrop-blur-sm rounded-2xl p-8 border border-neutral-800 space-y-6 h-full shadow-2xl transition-all duration-500 focus-within:border-cyan-500/30 focus-within:shadow-cyan-500/10"
             >
               <h3 className="text-2xl font-bold text-white mb-2">Send Message</h3>
-              <p className="text-gray-400 mb-6 text-sm">Have a project in mind or just want to say hi? Fill out the form below.</p>
+              <p className="text-gray-300 mb-6 text-sm">Have a project in mind or just want to say hi? Fill out the form below.</p>
 
               {/* Status Messages */}
               {submitStatus === 'success' && (
@@ -197,40 +200,42 @@ export default function ContactSection() {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="name" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
+                    <label htmlFor="name" className="block text-xs font-medium text-gray-300 mb-2 uppercase tracking-wide">
                       Name
                     </label>
                     <Input
                       id="name"
                       name="name"
                       type="text"
+                      autoComplete="name"
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="bg-neutral-950 border-neutral-800 text-white placeholder-gray-600 focus:border-cyan-500/50 focus:ring-cyan-500/20 transition-all h-12"
+                      className="bg-neutral-950 border-neutral-800 text-white placeholder-gray-400 focus:border-cyan-500/50 focus:ring-cyan-500/20 transition-all h-12"
                       placeholder="John Doe"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
+                    <label htmlFor="email" className="block text-xs font-medium text-gray-300 mb-2 uppercase tracking-wide">
                       Email
                     </label>
                     <Input
                       id="email"
                       name="email"
                       type="email"
+                      autoComplete="email"
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="bg-neutral-950 border-neutral-800 text-white placeholder-gray-600 focus:border-cyan-500/50 focus:ring-cyan-500/20 transition-all h-12"
+                      className="bg-neutral-950 border-neutral-800 text-white placeholder-gray-400 focus:border-cyan-500/50 focus:ring-cyan-500/20 transition-all h-12"
                       placeholder="john@example.com"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wide">
+                  <label htmlFor="message" className="block text-xs font-medium text-gray-300 mb-2 uppercase tracking-wide">
                     Message
                   </label>
                   <Textarea
@@ -240,30 +245,30 @@ export default function ContactSection() {
                     rows={6}
                     value={formData.message}
                     onChange={handleChange}
-                    className="bg-neutral-950 border-neutral-800 text-white placeholder-gray-600 focus:border-cyan-500/50 focus:ring-cyan-500/20 resize-none transition-all"
+                    className="bg-neutral-950 border-neutral-800 text-white placeholder-gray-400 focus:border-cyan-500/50 focus:ring-cyan-500/20 resize-none transition-all"
                     placeholder="Tell me about your project..."
                   />
                 </div>
               </div>
 
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white py-6 rounded-xl font-bold tracking-wide transition-all duration-300 shadow-lg hover:shadow-cyan-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? (
-                  <div className="flex items-center justify-center">
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                    Sending...
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center">
-                    <Send className="mr-2 h-5 w-5" />
-                    Send Message
-                  </div>
-                )}
-              </Button>
+              <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-white hover:bg-zinc-200 text-zinc-950 py-6 rounded-xl font-semibold tracking-wide transition-all duration-300 shadow-[0_4px_25px_rgba(255,255,255,0.15)] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center justify-center">
+                      <div className="w-5 h-5 border-2 border-zinc-950 border-t-transparent rounded-full animate-spin mr-2"></div>
+                      Sending...
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center">
+                      <Send className="mr-2 h-4 w-4" aria-hidden="true" />
+                      Send Message
+                    </div>
+                  )}
+                </Button>
               </motion.div>
             </form>
           </ScrollReveal>

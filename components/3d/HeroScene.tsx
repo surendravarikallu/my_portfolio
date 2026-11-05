@@ -7,7 +7,6 @@ import * as THREE from "three";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 // Performance optimization: track scroll value in a passive event listener
-// to prevent layout thrashing (reflow) caused by reading window.scrollY inside useFrame
 let globalScrollY = 0;
 if (typeof window !== "undefined") {
   window.addEventListener("scroll", () => {
@@ -32,21 +31,18 @@ function AbstractShape() {
 
   useFrame((state, delta) => {
     if (meshRef.current && !prefersReducedMotion) {
-      // Entrance animation
       if (meshRef.current.scale.x < 1) {
         meshRef.current.scale.lerp(new THREE.Vector3(1, 1, 1), 0.05);
       }
 
       const scrollRatio = Math.min(globalScrollY / 1000, 1.2);
 
-      // Spin faster when scrolling
       meshRef.current.rotation.x += delta * (0.2 + scrollRatio * 0.4);
       meshRef.current.rotation.y += delta * (0.3 + scrollRatio * 0.6);
 
-      // Interpolate position based on mouse hover and scroll depth
       const targetX = (state.pointer.x * state.viewport.width) / 10;
       const targetY = (state.pointer.y * state.viewport.height) / 10 - scrollRatio * 3;
-      const targetZ = -scrollRatio * 6; // push backward into the screen
+      const targetZ = -scrollRatio * 6;
 
       meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, targetX, 0.05);
       meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, targetY, 0.05);
@@ -71,15 +67,16 @@ function AbstractShape() {
   );
 }
 
-// Create a soft circular particle texture (generated once, shared across instances)
-function createParticleTexture(): THREE.Texture {
+// Create a soft circular particle texture once
+let cachedParticleTexture: THREE.Texture | null = null;
+function getParticleTexture(): THREE.Texture {
+  if (cachedParticleTexture) return cachedParticleTexture;
   const size = 64;
   const canvas = document.createElement("canvas");
   canvas.width = size;
   canvas.height = size;
   const ctx = canvas.getContext("2d")!;
 
-  // Radial gradient: bright white center → soft transparent edge
   const gradient = ctx.createRadialGradient(
     size / 2, size / 2, 0,
     size / 2, size / 2, size / 2
@@ -92,32 +89,26 @@ function createParticleTexture(): THREE.Texture {
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, size, size);
 
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.needsUpdate = true;
-  return texture;
+  cachedParticleTexture = new THREE.CanvasTexture(canvas);
+  return cachedParticleTexture;
 }
 
-function ParticleSystem({ count = 300 }) {
+function ParticleSystem({ count = 500 }: { count?: number }) {
   const pointsRef = useRef<THREE.Points>(null);
   const materialRef = useRef<THREE.PointsMaterial>(null);
   const prefersReducedMotion = useReducedMotion();
   const entranceProgress = useRef(0);
-  const initialPositions = useRef<Float32Array | null>(null);
 
-  // Generate circular particle texture once
-  const particleTexture = useMemo(() => createParticleTexture(), []);
+  const particleTexture = useMemo(() => getParticleTexture(), []);
 
-  // Use seeded PRNG so particles are identical across all browsers
   const particlesPosition = useMemo(() => {
-    const rand = mulberry32(42); // fixed seed = deterministic positions
+    const rand = mulberry32(42);
     const positions = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       positions[i * 3] = (rand() - 0.5) * 20;
       positions[i * 3 + 1] = (rand() - 0.5) * 20;
       positions[i * 3 + 2] = (rand() - 0.5) * 14;
     }
-    // Store a copy of initial positions for scroll-based animation
-    initialPositions.current = new Float32Array(positions);
     return positions;
   }, [count]);
 
@@ -125,47 +116,32 @@ function ParticleSystem({ count = 300 }) {
     const scrollRatio = Math.min(globalScrollY / 800, 2.0);
 
     if (pointsRef.current && !prefersReducedMotion) {
-      // Entrance burst: scale up from tiny to full over ~1.5s
       if (entranceProgress.current < 1) {
         entranceProgress.current = Math.min(entranceProgress.current + delta * 0.7, 1);
-        // Ease-out cubic for a snappy burst
-        const t = 1 - Math.pow(1 - entranceProgress.current, 3);
-        const s = 0.01 + t * 0.99; // scale from 0.01 to 1.0
-        pointsRef.current.scale.set(s, s, s);
       }
+      const t = 1 - Math.pow(1 - entranceProgress.current, 3);
+      const baseScale = 0.01 + t * 0.99;
+      const breathe = 1 + scrollRatio * 0.3 + Math.sin(state.clock.elapsedTime * 1.5) * 0.05;
+      const currentScale = baseScale * breathe;
 
-      // Rotation speeds up dramatically on scroll
+      pointsRef.current.scale.set(currentScale, currentScale, currentScale);
+
       pointsRef.current.rotation.y -= delta * (0.05 + scrollRatio * 0.15);
       pointsRef.current.rotation.x -= delta * (0.03 + scrollRatio * 0.08);
 
-      // Pull particles forward to create a tunnel/warp scroll effect
       pointsRef.current.position.z = THREE.MathUtils.lerp(
         pointsRef.current.position.z,
         scrollRatio * 8,
         0.06
       );
-
-      // Animate individual particle positions on scroll for a breathing/expanding effect
-      const posAttr = pointsRef.current.geometry.attributes.position;
-      if (posAttr && initialPositions.current) {
-        const arr = posAttr.array as Float32Array;
-        const initArr = initialPositions.current;
-        const breathe = 1 + scrollRatio * 0.3 + Math.sin(state.clock.elapsedTime * 1.5) * 0.05;
-        for (let i = 0; i < arr.length; i++) {
-          arr[i] = initArr[i] * breathe;
-        }
-        posAttr.needsUpdate = true;
-      }
     } else if (pointsRef.current && prefersReducedMotion) {
       pointsRef.current.scale.set(1, 1, 1);
     }
 
     if (materialRef.current && !prefersReducedMotion) {
-      // Fade in over ~2s
       if (materialRef.current.opacity < 1) {
         materialRef.current.opacity = Math.min(materialRef.current.opacity + delta * 0.5, 1);
       }
-      // Particle size grows on scroll + gentle pulse
       const pulse = Math.sin(state.clock.elapsedTime * 2.5) * 0.02;
       materialRef.current.size = 0.12 + scrollRatio * 0.06 + pulse;
     } else if (materialRef.current && prefersReducedMotion) {
@@ -199,8 +175,14 @@ function ParticleSystem({ count = 300 }) {
 export default function HeroScene() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(true);
+  const [particleCount, setParticleCount] = useState(500);
 
   useEffect(() => {
+    // Mobile optimization: fewer particles on small screens
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      setParticleCount(300);
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
@@ -223,13 +205,12 @@ export default function HeroScene() {
         camera={{ position: [0, 0, 5], fov: 45 }}
         gl={{ antialias: false, powerPreference: "high-performance" }}
       >
-        <ambientLight intensity={0.2} />
+        <ambientLight intensity={0.3} />
         <directionalLight position={[5, 10, 5]} intensity={1} color="#ffffff" />
-        <pointLight position={[-5, -5, -5]} intensity={0.5} color="#c084fc" />
+        <pointLight position={[-5, -5, -5]} intensity={0.6} color="#0284c7" />
         <AbstractShape />
-        <ParticleSystem count={1000} />
+        <ParticleSystem count={particleCount} />
       </Canvas>
     </div>
   );
 }
-

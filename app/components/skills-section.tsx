@@ -1,30 +1,34 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import SpotlightCard from "@/components/ui/spotlight-card";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { TextReveal } from "@/components/animations/TextReveal";
 
 const skillCategories = [
   {
     label: "Frontend",
     color: "from-cyan-400 to-blue-500",
     skills: [
-      { name: "HTML", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
-      { name: "CSS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
-      { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
-      { name: "React.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-      { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
-      { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
-      { name: "Tailwind CSS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+      { name: "HTML", icon: "/icons/html5.svg" },
+      { name: "CSS", icon: "/icons/css3.svg" },
+      { name: "JavaScript", icon: "/icons/javascript.svg" },
+      { name: "React.js", icon: "/icons/react.svg" },
+      { name: "TypeScript", icon: "/icons/typescript.svg" },
+      { name: "Next.js", icon: "/icons/nextjs.svg" },
+      { name: "Tailwind CSS", icon: "/icons/tailwindcss.svg" },
     ],
   },
   {
     label: "Backend",
     color: "from-green-400 to-emerald-500",
     skills: [
-      { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
-      { name: "Express.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" },
-      { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
-      { name: "Django", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" },
+      { name: "Node.js", icon: "/icons/nodejs.svg" },
+      { name: "Express.js", icon: "/icons/express.svg" },
+      { name: "Python", icon: "/icons/python.svg" },
+      { name: "Django", icon: "/icons/django.svg" },
       { name: "SAP ABAP", icon: "/sap-logo.svg" },
     ],
   },
@@ -32,9 +36,9 @@ const skillCategories = [
     label: "Databases",
     color: "from-purple-400 to-pink-500",
     skills: [
-      { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
-      { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
-      { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+      { name: "MongoDB", icon: "/icons/mongodb.svg" },
+      { name: "MySQL", icon: "/icons/mysql.svg" },
+      { name: "PostgreSQL", icon: "/icons/postgresql.svg" },
     ],
   },
   {
@@ -42,85 +46,136 @@ const skillCategories = [
     color: "from-orange-400 to-red-500",
     skills: [
       { name: "AWS", icon: "/aws-logo.svg" },
-      { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
-      { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
-      { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
-      { name: "Postman", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" },
-      { name: "Vercel", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" },
-      { name: "VS Code", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" },
+      { name: "Docker", icon: "/icons/docker.svg" },
+      { name: "Git", icon: "/icons/git.svg" },
+      { name: "GitHub", icon: "/icons/github.svg" },
+      { name: "Postman", icon: "/icons/postman.svg" },
+      { name: "Vercel", icon: "/icons/vercel.svg" },
+      { name: "VS Code", icon: "/icons/vscode.svg" },
     ],
   },
 ];
 
-export default function SkillsSection() {
-  return (
-    <section id="skills" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-neutral-950">
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black"></div>
+const filterTabs = [
+  { id: "all", label: "All Skills" },
+  { id: "frontend", label: "Frontend" },
+  { id: "backend", label: "Backend" },
+  { id: "databases", label: "Databases" },
+  { id: "cloud & tools", label: "Cloud & Tools" },
+];
 
+export default function SkillsSection() {
+  const [activeTab, setActiveTab] = useState("all");
+
+  const visibleCategories =
+    activeTab === "all"
+      ? skillCategories
+      : skillCategories.filter((c) => c.label.toLowerCase() === activeTab.toLowerCase());
+
+  return (
+    <section id="skills" aria-label="Technical Skills & Technologies" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-black">
       <div className="relative z-10 max-w-6xl mx-auto">
-        <ScrollReveal
-          delay={0}
-          yOffset={30}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              Skills & Technologies
-            </span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 mx-auto rounded-full animate-glow-line"></div>
-          <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
-            Here are the technologies and tools I work with to bring ideas to life
+        <ScrollReveal delay={0} yOffset={30} className="text-center mb-12">
+          <p className="text-xs font-mono font-medium tracking-[0.25em] text-cyan-400/90 uppercase mb-2">
+            // 02. TECHNICAL MATRIX
           </p>
+          <h2 className="text-3xl sm:text-5xl font-bold mb-4 text-titanium tracking-tight">
+            Skills & Technologies
+          </h2>
+          <p className="text-zinc-400 mt-3 max-w-2xl mx-auto text-base sm:text-lg">
+            Technologies, frameworks, and enterprise platforms I use to engineer scalable, high-throughput systems.
+          </p>
+
+          {/* OriginKit Category Filter Pills */}
+          <div className="flex flex-wrap justify-center items-center gap-2 mt-8">
+            {filterTabs.map((tab) => {
+              const isSelected = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  aria-pressed={isSelected}
+                  className={`relative px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors ${
+                    isSelected ? "text-white font-semibold" : "text-zinc-400 hover:text-white"
+                  }`}
+                >
+                  {isSelected && (
+                    <motion.div
+                      layoutId="skills-filter-pill"
+                      className="absolute inset-0 rounded-full bg-zinc-800 border border-zinc-700/80 shadow-[0_2px_10px_rgba(0,0,0,0.5)] -z-10"
+                      transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                    />
+                  )}
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
         </ScrollReveal>
 
-        <div className="space-y-12">
-          {skillCategories.map((category, catIndex) => (
-            <ScrollReveal key={category.label} delay={catIndex * 0.1} yOffset={20}>
-              <div>
-                <h3 className={`text-lg font-semibold mb-4 bg-gradient-to-r ${category.color} bg-clip-text text-transparent uppercase tracking-wider`}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.25 }}
+            className="space-y-12"
+          >
+            {visibleCategories.map((category) => (
+              <div key={category.label}>
+                <h3 className="text-sm font-mono font-semibold mb-4 text-zinc-300 uppercase tracking-widest flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                   {category.label}
                 </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
                   {category.skills.map((skill) => (
                     <SpotlightCard
                       key={skill.name}
-                      className="group bg-neutral-900/50 border-neutral-800 skill-icon-glow"
-                      spotlightColor="rgba(6, 182, 212, 0.2)"
+                      className="group bg-zinc-950/70 border-zinc-800/80 hover:border-zinc-700 transition-colors"
+                      spotlightColor="rgba(56, 189, 248, 0.12)"
                     >
-                      <div className="relative z-10 flex items-center gap-3 p-4">
-                        <div className="transform group-hover:scale-110 transition-all duration-300 shrink-0 group-hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]">
-                          <img
+                      <div className="relative z-10 flex items-center gap-3 p-3.5">
+                        <div className="transform group-hover:scale-110 transition-transform duration-300 shrink-0">
+                          <Image
                             src={skill.icon}
-                            alt={skill.name}
-                            className={`w-10 h-10 object-contain ${["Express.js", "GitHub", "Next.js", "Django", "Vercel"].includes(skill.name) ? "invert" : ""}`}
+                            alt={`${skill.name} icon`}
+                            width={36}
+                            height={36}
+                            className={`w-9 h-9 object-contain ${
+                              ["Express.js", "GitHub", "Next.js", "Django", "Vercel"].includes(skill.name)
+                                ? "invert"
+                                : ""
+                            }`}
                             loading="lazy"
+                            unoptimized
                           />
                         </div>
-                        <h4 className="text-white font-medium text-sm group-hover:text-cyan-400 transition-colors duration-300">
+                        <p className="text-zinc-200 font-medium text-sm group-hover:text-white transition-colors duration-200 truncate">
                           {skill.name}
-                        </h4>
+                        </p>
                       </div>
                     </SpotlightCard>
                   ))}
                 </div>
               </div>
-            </ScrollReveal>
-          ))}
-        </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
 
-        {/* Always Learning */}
-        <ScrollReveal delay={0.2} yOffset={30} className="mt-16 text-center">
-          <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-4xl mx-auto overflow-hidden">
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 bg-[size:200%_100%] animate-gradient opacity-20 pointer-events-none" />
-            <h3 className="text-2xl font-bold text-white mb-4">Always Learning</h3>
-            <p className="text-gray-300 leading-relaxed">
-              I'm constantly expanding my skill set and staying up-to-date with the latest technologies. Currently
-              exploring advanced <span className="text-cyan-400">AI Integration</span>, <span className="text-purple-400">Cloud Architecture</span>, and modern development practices.
+        {/* Continuous Engineering Evolution Banner */}
+        <ScrollReveal delay={0.2} yOffset={25} className="mt-16 text-center">
+          <div className="relative bg-zinc-950/70 rounded-2xl p-8 border border-zinc-800/80 [transform:translateZ(0)] hover:border-zinc-700 transition-colors max-w-4xl mx-auto overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 tracking-tight">Continuous Engineering Evolution</h3>
+            <p className="text-zinc-400 leading-relaxed text-sm sm:text-base">
+              Constantly expanding my engineering horizons. Currently focusing on{" "}
+              <span className="text-zinc-200 font-medium">Autonomous AI Agent Architectures</span>,{" "}
+              <span className="text-cyan-300 font-medium">Enterprise ServiceNow (CSA & CAD)</span>, and{" "}
+              <span className="text-emerald-400 font-medium">High-Concurrency Cloud Systems</span>.
             </p>
           </div>
         </ScrollReveal>
       </div>
     </section>
-  )
+  );
 }
