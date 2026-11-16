@@ -2,7 +2,8 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Lock } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 
 interface RequestAccessModalProps {
@@ -14,6 +15,46 @@ interface RequestAccessModalProps {
 export function RequestAccessModal({ isOpen, onClose, projectTitle }: RequestAccessModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Lock scroll & handle Escape key
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtmlOverflow = html.style.overflow;
+    const prevBodyOverflow = body.style.overflow;
+
+    html.classList.add("lenis-stopped");
+    body.classList.add("lenis-stopped");
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+
+    if (typeof window !== "undefined" && (window as any).lenis) {
+      (window as any).lenis.stop();
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      html.classList.remove("lenis-stopped");
+      body.classList.remove("lenis-stopped");
+      html.style.overflow = prevHtmlOverflow;
+      body.style.overflow = prevBodyOverflow;
+      if (typeof window !== "undefined" && (window as any).lenis) {
+        (window as any).lenis.start();
+      }
+    };
+  }, [isOpen, onClose]);
 
   // Form handling using Formspree structure
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,11 +63,10 @@ export function RequestAccessModal({ isOpen, onClose, projectTitle }: RequestAcc
     
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
-    
-    data.project = projectTitle; // Inject project name
+    data.project = projectTitle;
 
     try {
-      const response = await fetch("https://formspree.io/f/xyzkpvqq", { // Replace with actual Formspree endpoint if provided
+      const response = await fetch("https://formspree.io/f/xyzkpvqq", {
         method: "POST",
         headers: {
           "Accept": "application/json",
@@ -51,15 +91,22 @@ export function RequestAccessModal({ isOpen, onClose, projectTitle }: RequestAcc
     }
   };
 
-  return (
+  if (!mounted) return null;
+
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Request access to ${projectTitle}`}
+          className="fixed inset-0 z-[90] flex items-center justify-center p-4"
+        >
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
             onClick={onClose}
           />
 
@@ -68,8 +115,9 @@ export function RequestAccessModal({ isOpen, onClose, projectTitle }: RequestAcc
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="relative w-full max-w-md bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl p-6 sm:p-8 overflow-hidden"
+            className="relative w-full max-w-md bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl p-6 sm:p-8 overflow-hidden z-10"
             onClick={(e) => e.stopPropagation()}
+            data-lenis-prevent="true"
           >
             {/* Background glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-cyan-500/10 blur-3xl pointer-events-none rounded-full" />
@@ -86,7 +134,8 @@ export function RequestAccessModal({ isOpen, onClose, projectTitle }: RequestAcc
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                  aria-label="Close request access dialog"
+                  className="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors focus:outline-none"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -94,7 +143,8 @@ export function RequestAccessModal({ isOpen, onClose, projectTitle }: RequestAcc
 
               {isSuccess ? (
                 <motion.div 
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }} 
                   className="flex flex-col items-center justify-center py-8 text-center"
                 >
                   <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center mb-4">
@@ -148,7 +198,6 @@ export function RequestAccessModal({ isOpen, onClose, projectTitle }: RequestAcc
                       disabled={isSubmitting}
                       className="w-full bg-cyan-600 hover:bg-cyan-500 text-white border-none py-6 rounded-xl text-base tracking-wide transition-all shadow-[0_0_20px_rgba(8,145,178,0.2)] hover:shadow-[0_0_25px_rgba(8,145,178,0.4)] relative overflow-hidden group"
                     >
-                      {/* Shine effect */}
                       <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent z-10" />
                       
                       <span className="flex items-center gap-2 relative z-20">
@@ -168,4 +217,6 @@ export function RequestAccessModal({ isOpen, onClose, projectTitle }: RequestAcc
       )}
     </AnimatePresence>
   );
+
+  return createPortal(modalContent, document.body);
 }

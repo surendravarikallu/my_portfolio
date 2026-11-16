@@ -6,13 +6,8 @@ import { Float } from "@react-three/drei";
 import * as THREE from "three";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-// Performance optimization: track scroll value in a passive event listener
+// Global scroll position updated passively
 let globalScrollY = 0;
-if (typeof window !== "undefined") {
-  window.addEventListener("scroll", () => {
-    globalScrollY = window.scrollY;
-  }, { passive: true });
-}
 
 // Seeded PRNG (mulberry32) so particles render identically across all browsers
 function mulberry32(seed: number) {
@@ -67,15 +62,18 @@ function AbstractShape() {
   );
 }
 
-// Create a soft circular particle texture once
+// Create a soft circular particle texture once with fallback
 let cachedParticleTexture: THREE.Texture | null = null;
-function getParticleTexture(): THREE.Texture {
+function getParticleTexture(): THREE.Texture | null {
+  if (typeof document === "undefined") return null;
   if (cachedParticleTexture) return cachedParticleTexture;
+
   const size = 64;
   const canvas = document.createElement("canvas");
   canvas.width = size;
   canvas.height = size;
-  const ctx = canvas.getContext("2d")!;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
 
   const gradient = ctx.createRadialGradient(
     size / 2, size / 2, 0,
@@ -159,7 +157,7 @@ function ParticleSystem({ count = 500 }: { count?: number }) {
       </bufferGeometry>
       <pointsMaterial
         ref={materialRef}
-        map={particleTexture}
+        map={particleTexture || undefined}
         transparent
         opacity={0}
         color="#ffffff"
@@ -178,10 +176,18 @@ export default function HeroScene() {
   const [particleCount, setParticleCount] = useState(500);
 
   useEffect(() => {
-    // Mobile optimization: fewer particles on small screens
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      setParticleCount(300);
-    }
+    // Passive scroll listener for 3D parallax
+    const handleScroll = () => {
+      globalScrollY = window.scrollY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Responsive particle count based on screen width
+    const handleResize = () => {
+      setParticleCount(window.innerWidth < 768 ? 300 : 500);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize, { passive: true });
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -194,7 +200,11 @@ export default function HeroScene() {
       observer.observe(containerRef.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -203,7 +213,16 @@ export default function HeroScene() {
         frameloop={isInView ? "always" : "never"}
         dpr={[1, 1.5]}
         camera={{ position: [0, 0, 5], fov: 45 }}
-        gl={{ antialias: false, powerPreference: "high-performance" }}
+        gl={{ antialias: false, powerPreference: "default" }}
+        onCreated={({ gl }) => {
+          gl.domElement.addEventListener("webglcontextlost", (event) => {
+            event.preventDefault();
+            cachedParticleTexture = null;
+          }, false);
+          gl.domElement.addEventListener("webglcontextrestored", () => {
+            cachedParticleTexture = null;
+          }, false);
+        }}
       >
         <ambientLight intensity={0.3} />
         <directionalLight position={[5, 10, 5]} intensity={1} color="#ffffff" />

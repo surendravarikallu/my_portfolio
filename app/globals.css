@@ -384,35 +384,14 @@ body.lenis-stopped {
   z-index: 1;
 }
 
-/* Below-the-fold content visibility optimization */
-#about {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 750px;
-}
-
-#skills {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 900px;
-}
-
-#experience {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 1100px;
-}
-
-#projects {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 1600px;
-}
-
-#certificates {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 1000px;
-}
-
+/* Section containment for stable scroll calculation */
+#about,
+#skills,
+#experience,
+#projects,
+#certificates,
 #contact {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 800px;
+  content-visibility: visible;
 }
 
 /* Reduced motion preference */

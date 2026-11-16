@@ -77,23 +77,33 @@ export function ArchitectureModal({ isOpen, onClose, projectType }: Architecture
     };
   }, [isOpen, onClose]);
 
-  if (!mounted || !isOpen || !projectType) return null;
+  const lastProjectTypeRef = useRef<"skillnox" | "skillnox_ai" | null>(projectType);
+  if (projectType) {
+    lastProjectTypeRef.current = projectType;
+  }
+  const activeType = projectType || lastProjectTypeRef.current;
 
-  const isSkillnox = projectType === "skillnox";
-  const isSkillnoxAI = projectType === "skillnox_ai";
+  if (!mounted) return null;
+
+  const isSkillnox = activeType === "skillnox";
+  const isSkillnoxAI = activeType === "skillnox_ai";
 
   const modalContent = (
     <AnimatePresence>
-      <div 
-        className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 overflow-hidden overscroll-contain select-none"
-        onWheel={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-        }}
-        onTouchMove={(e) => {
-          e.stopPropagation();
-        }}
-      >
+      {isOpen && activeType && (
+        <div 
+          role="dialog"
+          aria-modal="true"
+          aria-label={isSkillnox ? "Skillnox Architecture Breakdown" : "Skillnox.AI Architecture Breakdown"}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 overflow-hidden overscroll-contain select-none"
+          onWheel={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          onTouchMove={(e) => {
+            e.stopPropagation();
+          }}
+        >
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -539,6 +549,7 @@ export function ArchitectureModal({ isOpen, onClose, projectType }: Architecture
           </div>
         </motion.div>
       </div>
+      )}
     </AnimatePresence>
   );
 

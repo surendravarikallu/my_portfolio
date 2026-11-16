@@ -60,14 +60,10 @@ export const MagneticWrapper: React.FC<MagneticWrapperProps> = ({
     rectRef.current = null;
   }, [x, y]);
 
-  if (prefersReducedMotion) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
     <motion.div
       ref={ref}
-      style={{ x, y }}
+      style={prefersReducedMotion ? undefined : { x, y }}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}

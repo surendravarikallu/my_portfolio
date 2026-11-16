@@ -37,6 +37,16 @@ export const TiltedCard = ({
     const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], [rotateAmplitude, -rotateAmplitude]);
     const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], [-rotateAmplitude, rotateAmplitude]);
 
+    const glareBackground = useTransform([mouseXSpring, mouseYSpring], (values: any[]) => {
+        const [xVal, yVal] = values as [number, number];
+        return `radial-gradient(circle at ${50 + xVal * 100}% ${50 + yVal * 100}%, rgba(255, 255, 255, 0.3) 0%, transparent 60%)`;
+    });
+
+    const glareOpacity = useTransform([mouseXSpring, mouseYSpring], (values: any[]) => {
+        const [xVal, yVal] = values as [number, number];
+        return Math.min(1, Math.abs(xVal) + Math.abs(yVal));
+    });
+
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (!ref.current) return;
 
@@ -91,24 +101,8 @@ export const TiltedCard = ({
                 <motion.div
                     className="absolute inset-0 w-full h-full pointer-events-none z-50 rounded-xl mix-blend-overlay"
                     style={{
-                        background: useTransform(
-                            [mouseXSpring, mouseYSpring],
-                            (values: any[]) => {
-                                const [xVal, yVal] = values as [number, number];
-                                return `radial-gradient(
-                                circle at ${50 + xVal * 100}% ${50 + yVal * 100}%,
-                                rgba(255, 255, 255, 0.3) 0%,
-                                transparent 60%
-                            )`
-                            }
-                        ),
-                        opacity: useTransform(
-                            [mouseXSpring, mouseYSpring],
-                            (values: any[]) => {
-                                const [xVal, yVal] = values as [number, number];
-                                return Math.abs(xVal) + Math.abs(yVal);
-                            }
-                        )
+                        background: glareBackground,
+                        opacity: glareOpacity
                     }}
                 />
             </motion.div>

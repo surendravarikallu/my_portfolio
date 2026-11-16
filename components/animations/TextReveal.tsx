@@ -39,25 +39,28 @@ export const TextReveal: React.FC<TextRevealProps> = ({ text, className = "", de
     return () => observer.disconnect();
   }, [prefersReducedMotion]);
 
-  if (prefersReducedMotion) {
-    return <h2 className={className}>{text}</h2>;
-  }
-
   const justifyClass = className.includes("justify-") ? "" : "justify-center";
 
   return (
-    <h2 ref={containerRef} className={`${className} overflow-hidden flex flex-wrap ${justifyClass} py-1`}>
+    <h2
+      ref={containerRef}
+      aria-label={text}
+      className={`${className} overflow-hidden flex flex-wrap ${justifyClass} py-1`}
+    >
       {words.map((word, index) => {
         const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
         const isCyan = ["Me"].includes(cleanWord);
         return (
           <span
             key={index}
+            aria-hidden="true"
             className={`word-item inline-block mr-[0.25em] last:mr-0 origin-bottom ${isCyan ? "text-cyan-400" : ""}`}
             style={{
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible ? "translate3d(0, 0, 0)" : "translate3d(0, 60%, 0)",
-              transition: `opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay + index * 0.05}s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay + index * 0.05}s`,
+              opacity: isVisible || prefersReducedMotion ? 1 : 0,
+              transform: isVisible || prefersReducedMotion ? "translate3d(0, 0, 0)" : "translate3d(0, 60%, 0)",
+              transition: prefersReducedMotion
+                ? "none"
+                : `opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay + index * 0.05}s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay + index * 0.05}s`,
             }}
           >
             {word}

@@ -27,11 +27,15 @@ export default function Navbar() {
   const scrollRaf = useRef<number | null>(null);
 
   useEffect(() => {
-    // Passive scroll listener for floating dock transition
+    // Passive scroll listener for floating dock transition & top-of-page snap
     const handleScroll = () => {
       if (scrollRaf.current) return;
       scrollRaf.current = requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 40);
+        const y = window.scrollY;
+        setScrolled(y > 40);
+        if (y < 80) {
+          setActiveSection("home");
+        }
         scrollRaf.current = null;
       });
     };
@@ -42,31 +46,61 @@ export default function Navbar() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && window.scrollY >= 80) {
             setActiveSection(entry.target.id);
           }
         });
       },
       {
-        rootMargin: "-20% 0px -60% 0px",
+        rootMargin: "-20% 0px -55% 0px",
         threshold: 0,
       }
     );
 
-    navItems.forEach((item) => {
-      const el = document.getElementById(item.href.substring(1));
-      if (el) observer.observe(el);
-    });
+    // Track which elements have been registered with the observer
+    const observedElements = new Set<string>();
+
+    const attachObservers = () => {
+      navItems.forEach((item) => {
+        const id = item.href.substring(1);
+        if (!observedElements.has(id)) {
+          const el = document.getElementById(id);
+          if (el) {
+            observer.observe(el);
+            observedElements.add(id);
+          }
+        }
+      });
+    };
+
+    // Initial pass
+    attachObservers();
+
+    // Re-check as dynamic/lazy-loaded sections mount into the DOM
+    let mutationObserver: MutationObserver | null = null;
+    if (typeof MutationObserver !== "undefined") {
+      mutationObserver = new MutationObserver(() => {
+        attachObservers();
+        if (observedElements.size >= navItems.length && mutationObserver) {
+          mutationObserver.disconnect();
+          mutationObserver = null;
+        }
+      });
+      mutationObserver.observe(document.body, { childList: true, subtree: true });
+    }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
+      if (mutationObserver) mutationObserver.disconnect();
       if (scrollRaf.current) cancelAnimationFrame(scrollRaf.current);
     };
   }, []);
 
   const scrollToSection = (href: string) => {
-    const element = document.getElementById(href.substring(1));
+    const id = href.substring(1);
+    setActiveSection(id);
+    const element = document.getElementById(id);
     if (element) {
       if ((window as any).lenis) {
         (window as any).lenis.scrollTo(element, { duration: 1.2 });
@@ -146,6 +180,8 @@ export default function Navbar() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isOpen}
+              aria-controls="mobile-nav-menu"
               className="text-gray-400 hover:text-white focus:outline-none p-1.5 rounded-md"
             >
               {isOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
@@ -158,6 +194,7 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="mobile-nav-menu"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}

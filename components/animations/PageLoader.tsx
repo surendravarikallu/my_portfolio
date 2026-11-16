@@ -2,7 +2,27 @@
 
 import { useEffect, useState, useRef } from "react";
 
-const LOADER_DURATION_MS = 2400;
+const LOADER_DURATION_MS = 2200;
+
+interface PageLoaderController {
+  startTime: number;
+  duration: number;
+  isDone: boolean;
+  onComplete: (cb: () => void) => void;
+  unlockScroll: () => void;
+  isRemoved: boolean;
+}
+
+declare global {
+  interface Window {
+    __PAGE_LOADER_CTRL__?: PageLoaderController;
+    __PAGE_LOADER_REACT_MOUNTED__?: boolean;
+    lenis?: {
+      start: () => void;
+      stop: () => void;
+    };
+  }
+}
 
 export function PageLoader() {
   if (typeof process !== "undefined" && process.env.NEXT_PUBLIC_DISABLE_LOADER === "1") {
@@ -18,35 +38,49 @@ export function PageLoader() {
   const readyStatusRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const start = performance.now();
-    let animId: number;
+    if (typeof window === "undefined") return;
 
+    window.__PAGE_LOADER_REACT_MOUNTED__ = true;
+    const ctrl = window.__PAGE_LOADER_CTRL__;
+
+    // Case 1: Controller already finished and removed the DOM node before React hydrated
+    if (ctrl?.isRemoved) {
+      setIsRemoved(true);
+      return;
+    }
+
+    // Case 2: Controller is currently running the Frame 0 rAF loop
+    if (ctrl) {
+      ctrl.onComplete(() => {
+        setIsFadingOut(true);
+        setTimeout(() => {
+          setIsRemoved(true);
+          ctrl.unlockScroll();
+          window.dispatchEvent(new CustomEvent("pageLoaderComplete"));
+        }, 350);
+      });
+
+      return () => {
+        ctrl.unlockScroll();
+      };
+    }
+
+    // Case 3: Fallback if script didn't execute (e.g., client navigation)
+    let animId: number;
+    const start = performance.now();
     const tick = (now: number) => {
       const elapsed = now - start;
       const t = Math.min(1, elapsed / LOADER_DURATION_MS);
-      // Gentle smooth curve (takes ~0.7s per state for 100% readability)
       const p = Math.min(100, Math.round((1 - Math.pow(1 - t, 1.45)) * 100));
 
-      if (percentRef.current) {
-        percentRef.current.textContent = `${p}%`;
-        if (p >= 100) {
-          percentRef.current.style.color = "#ffffff";
-          percentRef.current.style.textShadow = "0 0 20px rgba(255,255,255,0.8), 0 0 35px rgba(6,182,212,0.4)";
-        }
-      }
-
-      if (barRef.current) {
-        barRef.current.style.transform = `scaleX(${Math.max(0.02, p / 100)})`;
-      }
+      if (percentRef.current) percentRef.current.textContent = `${p}%`;
+      if (barRef.current) barRef.current.style.transform = `scaleX(${Math.max(0.02, p / 100)})`;
 
       if (assetStatusRef.current) {
-        if (p < 28) {
-          assetStatusRef.current.textContent = "CORE MODULES LOADING...";
-        } else if (p < 62) {
-          assetStatusRef.current.textContent = "ASSETS ADDED • COMPILING SHADERS...";
-        } else if (p < 90) {
-          assetStatusRef.current.textContent = "CONFIGURING 3D ENVIRONMENT...";
-        } else {
+        if (p < 28) assetStatusRef.current.textContent = "CORE MODULES LOADING...";
+        else if (p < 62) assetStatusRef.current.textContent = "ASSETS ADDED • COMPILING SHADERS...";
+        else if (p < 90) assetStatusRef.current.textContent = "CONFIGURING 3D ENVIRONMENT...";
+        else {
           assetStatusRef.current.textContent = "ALL ASSETS LOADED";
           assetStatusRef.current.style.color = "#ffffff";
         }
@@ -64,13 +98,13 @@ export function PageLoader() {
           setIsFadingOut(true);
           setTimeout(() => {
             setIsRemoved(true);
+            window.dispatchEvent(new CustomEvent("pageLoaderComplete"));
           }, 350);
         }, 140);
       }
     };
 
     animId = requestAnimationFrame(tick);
-
     return () => {
       if (animId) cancelAnimationFrame(animId);
     };
@@ -89,6 +123,7 @@ export function PageLoader() {
       className={`fixed inset-0 z-[100] flex items-center justify-center bg-black transition-opacity duration-350 ease-out select-none ${
         isFadingOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
+      style={{ touchAction: "none" }}
     >
       {/* Precision Micro-Grid Ambient Matrix */}
       <div className="absolute inset-0 opacity-[0.06] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none" />
@@ -114,6 +149,7 @@ export function PageLoader() {
             <span
               ref={percentRef}
               id="page-loader-percent"
+              suppressHydrationWarning
               className="text-2xl sm:text-4xl font-light tracking-widest font-mono tabular-nums text-zinc-100 transition-colors duration-200"
               style={{ textShadow: "0 0 10px rgba(6,182,212,0.5)" }}
             >
@@ -127,6 +163,7 @@ export function PageLoader() {
             <div
               ref={barRef}
               id="page-loader-bar"
+              suppressHydrationWarning
               className="h-full w-full relative origin-left will-change-transform bg-gradient-to-r from-zinc-200 via-cyan-400 to-blue-500 rounded-sm"
               style={{ transform: "scaleX(0.02)" }}
             >
@@ -145,6 +182,7 @@ export function PageLoader() {
               <span
                 ref={assetStatusRef}
                 id="page-loader-asset-status"
+                suppressHydrationWarning
                 className="transition-colors duration-200 truncate"
               >
                 CORE MODULES LOADING...
@@ -154,6 +192,7 @@ export function PageLoader() {
             <span
               ref={readyStatusRef}
               id="page-loader-ready-status"
+              suppressHydrationWarning
               className="text-zinc-500 font-mono transition-colors duration-200 shrink-0 font-medium"
             >
               Sys.Ready
@@ -163,36 +202,114 @@ export function PageLoader() {
         </div>
       </div>
 
-      {/* Frame 0 Immediate Script: Runs at HTML parse time with zero React hydration delay */}
+      {/* Frame 0 Immediate Script: Unified single controller, scroll lock, zero reset */}
       <script
         dangerouslySetInnerHTML={{
           __html: `
 (function() {
+  if (typeof window === 'undefined' || window.__PAGE_LOADER_CTRL__) return;
+
+  // 1. Instantly lock scroll on HTML & Body at Frame 0
+  try {
+    document.documentElement.classList.add('lenis-stopped');
+    document.documentElement.style.overflow = 'hidden';
+    if (document.body) {
+      document.body.classList.add('lenis-stopped');
+      document.body.style.overflow = 'hidden';
+    }
+    window.scrollTo(0, 0);
+  } catch(e) {}
+
   var pEl = document.getElementById('page-loader-percent');
   var bEl = document.getElementById('page-loader-bar');
   var aEl = document.getElementById('page-loader-asset-status');
   var rEl = document.getElementById('page-loader-ready-status');
+  var rootEl = document.getElementById('page-loader-root');
   if (!pEl || !bEl) return;
-  var start = performance.now();
-  var dur = 2400;
-  function f(now) {
-    var t = Math.min(1, (now - start) / dur);
+
+  var startTime = performance.now();
+  var dur = 2200;
+  var isDone = false;
+  var callbacks = [];
+
+  function unlockScroll() {
+    try {
+      document.documentElement.classList.remove('lenis-stopped');
+      document.documentElement.style.overflow = '';
+      if (document.body) {
+        document.body.classList.remove('lenis-stopped');
+        document.body.style.overflow = '';
+      }
+      if (window.lenis && typeof window.lenis.start === 'function') {
+        window.lenis.start();
+      }
+    } catch(e) {}
+  }
+
+  function triggerComplete() {
+    if (isDone) return;
+    isDone = true;
+    for (var i = 0; i < callbacks.length; i++) {
+      try { callbacks[i](); } catch(e) {}
+    }
+    // Fallback: If React hasn't mounted yet, dismiss vanilla DOM node
+    if (rootEl && !window.__PAGE_LOADER_REACT_MOUNTED__) {
+      rootEl.style.transition = 'opacity 350ms ease-out';
+      rootEl.style.opacity = '0';
+      rootEl.style.pointerEvents = 'none';
+      setTimeout(function() {
+        unlockScroll();
+        if (rootEl && rootEl.parentNode) rootEl.parentNode.removeChild(rootEl);
+        if (window.__PAGE_LOADER_CTRL__) window.__PAGE_LOADER_CTRL__.isRemoved = true;
+        window.dispatchEvent(new CustomEvent('pageLoaderComplete'));
+      }, 350);
+    }
+  }
+
+  function tick(now) {
+    var elapsed = now - startTime;
+    var t = Math.min(1, elapsed / dur);
     var p = Math.min(100, Math.round((1 - Math.pow(1 - t, 1.45)) * 100));
+
     pEl.textContent = p + '%';
     bEl.style.transform = 'scaleX(' + Math.max(0.02, p / 100) + ')';
+
     if (aEl) {
       if (p < 28) aEl.textContent = 'CORE MODULES LOADING...';
       else if (p < 62) aEl.textContent = 'ASSETS ADDED • COMPILING SHADERS...';
       else if (p < 90) aEl.textContent = 'CONFIGURING 3D ENVIRONMENT...';
-      else { aEl.textContent = 'ALL ASSETS LOADED'; aEl.style.color = '#ffffff'; }
+      else {
+        aEl.textContent = 'ALL ASSETS LOADED';
+        aEl.style.color = '#ffffff';
+      }
     }
+
     if (rEl && p >= 100) {
       rEl.textContent = 'Complete';
       rEl.style.color = '#38bdf8';
+      pEl.style.color = '#ffffff';
+      pEl.style.textShadow = '0 0 20px rgba(255,255,255,0.8), 0 0 35px rgba(6,182,212,0.4)';
     }
-    if (t < 1) requestAnimationFrame(f);
+
+    if (t < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      setTimeout(triggerComplete, 140);
+    }
   }
-  requestAnimationFrame(f);
+
+  requestAnimationFrame(tick);
+
+  window.__PAGE_LOADER_CTRL__ = {
+    startTime: startTime,
+    duration: dur,
+    isDone: isDone,
+    onComplete: function(cb) {
+      if (isDone) { cb(); } else { callbacks.push(cb); }
+    },
+    unlockScroll: unlockScroll,
+    isRemoved: false
+  };
 })();
 `,
         }}

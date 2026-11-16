@@ -121,41 +121,13 @@ function ExperienceRow({
     };
   }, [computeTriggerRatio]);
 
-  // Pure arithmetic comparison during scroll - zero forced reflows!
+  // Pure arithmetic comparison during scroll - sticky activation avoids jarring de-activation on scroll up
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const isNowReached = latest >= triggerRatioRef.current;
-    if (isNowReached !== reached) {
-      setReached(isNowReached);
+    if (isNowReached && !reached) {
+      setReached(true);
     }
   });
-
-  const borderGlowMap: Record<string, string> = {
-    cyan: "hover:border-cyan-500/40",
-    purple: "hover:border-purple-500/40",
-    amber: "hover:border-amber-500/40",
-    emerald: "hover:border-emerald-500/40",
-  };
-
-  const glowMap: Record<string, string> = {
-    cyan: "shadow-cyan-500/60",
-    purple: "shadow-purple-500/60",
-    amber: "shadow-amber-500/60",
-    emerald: "shadow-emerald-500/60",
-  };
-
-  const bulletColorMap: Record<string, string> = {
-    cyan: "text-cyan-400",
-    purple: "text-purple-400",
-    amber: "text-amber-400",
-    emerald: "text-emerald-400",
-  };
-
-  const glowBorderMap: Record<string, string> = {
-    cyan: "border-cyan-400",
-    purple: "border-purple-400",
-    amber: "border-amber-400",
-    emerald: "border-emerald-400",
-  };
 
   return (
     <div

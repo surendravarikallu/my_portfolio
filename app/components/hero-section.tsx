@@ -27,17 +27,32 @@ export default function HeroSection() {
   const contentOpacity = useTransform(scrollY, [0, 420], [1, 0]);
 
   useEffect(() => {
-    // Only attach mousemove on desktop
-    if (typeof window !== "undefined" && window.innerWidth >= 768) {
-      const handleMouseMove = (e: MouseEvent) => {
-        const { innerWidth, innerHeight } = window;
-        mouseX.set((e.clientX / innerWidth - 0.5) * 2);
-        mouseY.set((e.clientY / innerHeight - 0.5) * 2);
-      };
+    if (typeof window === "undefined") return;
+    const media = window.matchMedia("(min-width: 768px)");
+    let active = media.matches;
 
-      window.addEventListener("mousemove", handleMouseMove, { passive: true });
-      return () => window.removeEventListener("mousemove", handleMouseMove);
-    }
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!active) return;
+      const { innerWidth, innerHeight } = window;
+      mouseX.set((e.clientX / innerWidth - 0.5) * 2);
+      mouseY.set((e.clientY / innerHeight - 0.5) * 2);
+    };
+
+    const handleMedia = (e: MediaQueryListEvent) => {
+      active = e.matches;
+      if (!active) {
+        mouseX.set(0);
+        mouseY.set(0);
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    media.addEventListener("change", handleMedia);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      media.removeEventListener("change", handleMedia);
+    };
   }, [mouseX, mouseY]);
 
   const scrollToProjects = () => {

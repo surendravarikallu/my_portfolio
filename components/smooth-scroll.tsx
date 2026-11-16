@@ -18,6 +18,11 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
 
         (window as any).lenis = lenis;
 
+        // Keep scroll stopped if the initial loader is still running
+        if (typeof window !== "undefined" && (window as any).__LOADER_ACTIVE__) {
+            lenis.stop();
+        }
+
         let rafId: number;
         function raf(time: number) {
             lenis.raf(time);

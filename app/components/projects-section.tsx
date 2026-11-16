@@ -96,7 +96,7 @@ const otherProjects = [
     title: "Global Smile",
     description: "Advanced prosthodontic care platform without borders. Integrates AI-powered smile visualization, treatment journeys, and global dental tourism coordination.",
     tags: ["React.js", "Vite", "Tailwind CSS", "PWA"],
-    links: { demo: "http://global-smile-lc5h.onrender.com/", github: "https://github.com/surendravarikallu/Global-Smile" },
+    links: { demo: "https://global-smile-lc5h.onrender.com/", github: "https://github.com/surendravarikallu/Global-Smile" },
     icon: <Sparkles className="w-8 h-8 text-cyan-400" aria-hidden="true" />,
     iconBg: "bg-cyan-500/10 border-cyan-500/30",
     borderGlow: "hover:border-cyan-500/40",
@@ -106,7 +106,7 @@ const otherProjects = [
     title: "Student Connect",
     description: "A collaborative platform developed during a hackathon to help students connect, share academic resources, and collaborate on projects. Secured 3rd prize at the college hackathon.",
     tags: ["Python", "Django", "PostgreSQL"],
-    links: { demo: "http://studentconnect-sjc1.onrender.com/", github: "https://github.com/surendravarikallu/HSJM" },
+    links: { demo: "https://studentconnect-sjc1.onrender.com/", github: "https://github.com/surendravarikallu/HSJM" },
     icon: <Users className="w-8 h-8 text-blue-400" aria-hidden="true" />,
     iconBg: "bg-blue-500/10 border-blue-500/30",
     borderGlow: "hover:border-blue-500/40",
@@ -504,13 +504,11 @@ export default function ProjectsSection() {
       </div>
 
       {/* Portaled Architecture & Benchmarks Modal */}
-      {archModalProject && (
-        <ArchitectureModal
-          isOpen={!!archModalProject}
-          onClose={() => setArchModalProject(null)}
-          projectType={archModalProject}
-        />
-      )}
+      <ArchitectureModal
+        isOpen={!!archModalProject}
+        onClose={() => setArchModalProject(null)}
+        projectType={archModalProject}
+      />
     </section>
   );
 }
