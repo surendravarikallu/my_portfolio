@@ -17,6 +17,7 @@ declare global {
   interface Window {
     __PAGE_LOADER_CTRL__?: PageLoaderController;
     __PAGE_LOADER_REACT_MOUNTED__?: boolean;
+    __LOADER_ACTIVE__?: boolean;
     lenis?: {
       start: () => void;
       stop: () => void;
@@ -43,9 +44,22 @@ export function PageLoader() {
     window.__PAGE_LOADER_REACT_MOUNTED__ = true;
     const ctrl = window.__PAGE_LOADER_CTRL__;
 
+    // React safely manages body scroll locking inside client useEffect
+    const prevBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const unlockScroll = () => {
+      document.body.style.overflow = prevBodyOverflow;
+      window.__LOADER_ACTIVE__ = false;
+      if (window.lenis && typeof window.lenis.start === "function") {
+        window.lenis.start();
+      }
+    };
+
     // Case 1: Controller already finished and removed the DOM node before React hydrated
     if (ctrl?.isRemoved) {
       setIsRemoved(true);
+      unlockScroll();
       return;
     }
 
@@ -55,13 +69,13 @@ export function PageLoader() {
         setIsFadingOut(true);
         setTimeout(() => {
           setIsRemoved(true);
-          ctrl.unlockScroll();
+          unlockScroll();
           window.dispatchEvent(new CustomEvent("pageLoaderComplete"));
         }, 350);
       });
 
       return () => {
-        ctrl.unlockScroll();
+        unlockScroll();
       };
     }
 
@@ -98,6 +112,7 @@ export function PageLoader() {
           setIsFadingOut(true);
           setTimeout(() => {
             setIsRemoved(true);
+            unlockScroll();
             window.dispatchEvent(new CustomEvent("pageLoaderComplete"));
           }, 350);
         }, 140);
@@ -107,6 +122,7 @@ export function PageLoader() {
     animId = requestAnimationFrame(tick);
     return () => {
       if (animId) cancelAnimationFrame(animId);
+      unlockScroll();
     };
   }, []);
 
@@ -120,7 +136,7 @@ export function PageLoader() {
       role="status"
       aria-live="polite"
       aria-label="System Initialization"
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-black transition-opacity duration-350 ease-out select-none ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-black transition-opacity duration-350 ease-out select-none overscroll-none ${
         isFadingOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
       style={{ touchAction: "none" }}
@@ -202,21 +218,16 @@ export function PageLoader() {
         </div>
       </div>
 
-      {/* Frame 0 Immediate Script: Unified single controller, scroll lock, zero reset */}
+      {/* Frame 0 Immediate Script: Unified single controller, zero DOM element manipulation on html/body */}
       <script
         dangerouslySetInnerHTML={{
           __html: `
 (function() {
   if (typeof window === 'undefined' || window.__PAGE_LOADER_CTRL__) return;
 
-  // 1. Instantly lock scroll on HTML & Body at Frame 0
+  // Mark loader active so Lenis initializes in paused state without touching html/body DOM attributes
+  window.__LOADER_ACTIVE__ = true;
   try {
-    document.documentElement.classList.add('lenis-stopped');
-    document.documentElement.style.overflow = 'hidden';
-    if (document.body) {
-      document.body.classList.add('lenis-stopped');
-      document.body.style.overflow = 'hidden';
-    }
     window.scrollTo(0, 0);
   } catch(e) {}
 
@@ -233,13 +244,8 @@ export function PageLoader() {
   var callbacks = [];
 
   function unlockScroll() {
+    window.__LOADER_ACTIVE__ = false;
     try {
-      document.documentElement.classList.remove('lenis-stopped');
-      document.documentElement.style.overflow = '';
-      if (document.body) {
-        document.body.classList.remove('lenis-stopped');
-        document.body.style.overflow = '';
-      }
       if (window.lenis && typeof window.lenis.start === 'function') {
         window.lenis.start();
       }
