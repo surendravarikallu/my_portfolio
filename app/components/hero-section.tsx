@@ -19,11 +19,11 @@ export default function HeroSection() {
   const textX = useSpring(useTransform(mouseX, [0, 1, -1], [0, -10, 10]), springConfig);
   const textY = useSpring(useTransform(mouseY, [0, 1, -1], [0, -6, 6]), springConfig);
 
-  // Multi-depth scroll-linked parallax
+  // Multi-depth scroll-linked parallax (direct 1:1 transform avoiding spring-on-spring lag)
   const { scrollY } = useScroll();
   const gridY = useTransform(scrollY, [0, 600], [0, 60]);
   const sceneY = useTransform(scrollY, [0, 600], [0, -40]);
-  const contentY = useSpring(useTransform(scrollY, [0, 600], [0, -110]), { stiffness: 90, damping: 26 });
+  const contentY = useTransform(scrollY, [0, 600], [0, -110]);
   const contentOpacity = useTransform(scrollY, [0, 420], [1, 0]);
 
   useEffect(() => {

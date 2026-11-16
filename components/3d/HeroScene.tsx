@@ -2,7 +2,6 @@
 
 import { useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float } from "@react-three/drei";
 import * as THREE from "three";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -36,7 +35,8 @@ function AbstractShape() {
       meshRef.current.rotation.y += delta * (0.3 + scrollRatio * 0.6);
 
       const targetX = (state.pointer.x * state.viewport.width) / 10;
-      const targetY = (state.pointer.y * state.viewport.height) / 10 - scrollRatio * 3;
+      const floatY = Math.sin(state.clock.elapsedTime * 1.5) * 0.15;
+      const targetY = (state.pointer.y * state.viewport.height) / 10 - scrollRatio * 3 + floatY;
       const targetZ = -scrollRatio * 6;
 
       meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, targetX, 0.05);
@@ -48,17 +48,15 @@ function AbstractShape() {
   });
 
   return (
-    <Float speed={prefersReducedMotion ? 0 : 2} rotationIntensity={prefersReducedMotion ? 0 : 1} floatIntensity={prefersReducedMotion ? 0 : 2}>
-      <mesh ref={meshRef} scale={[0.0001, 0.0001, 0.0001]}>
-        <icosahedronGeometry args={[2, 1]} />
-        <meshStandardMaterial
-          color="#22d3ee"
-          wireframe
-          emissive="#0891b2"
-          emissiveIntensity={0.5}
-        />
-      </mesh>
-    </Float>
+    <mesh ref={meshRef} scale={[0.0001, 0.0001, 0.0001]}>
+      <icosahedronGeometry args={[2, 1]} />
+      <meshStandardMaterial
+        color="#22d3ee"
+        wireframe
+        emissive="#0891b2"
+        emissiveIntensity={0.5}
+      />
+    </mesh>
   );
 }
 
@@ -182,9 +180,9 @@ export default function HeroScene() {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Responsive particle count based on screen width
+    // Responsive particle count optimized for Intel Iris Xe & integrated GPUs
     const handleResize = () => {
-      setParticleCount(window.innerWidth < 768 ? 300 : 500);
+      setParticleCount(window.innerWidth < 768 ? 160 : 320);
     };
     handleResize();
     window.addEventListener("resize", handleResize, { passive: true });
@@ -211,7 +209,7 @@ export default function HeroScene() {
     <div ref={containerRef} className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-80">
       <Canvas
         frameloop={isInView ? "always" : "never"}
-        dpr={[1, 1.5]}
+        dpr={1}
         performance={{ min: 0.5 }}
         camera={{ position: [0, 0, 5], fov: 45 }}
         gl={{ antialias: false, powerPreference: "default" }}
