@@ -39,7 +39,7 @@ export const TiltedCard = ({
 
     const glareBackground = useTransform([mouseXSpring, mouseYSpring], (values: any[]) => {
         const [xVal, yVal] = values as [number, number];
-        return `radial-gradient(circle at ${50 + xVal * 100}% ${50 + yVal * 100}%, rgba(255, 255, 255, 0.3) 0%, transparent 60%)`;
+        return `radial-gradient(circle at ${50 + xVal * 100}% ${50 + yVal * 100}%, rgba(255, 255, 255, 0.18) 0%, transparent 65%)`;
     });
 
     const glareOpacity = useTransform([mouseXSpring, mouseYSpring], (values: any[]) => {
@@ -97,9 +97,9 @@ export const TiltedCard = ({
                     {children}
                 </div>
 
-                {/* Glare Effect */}
+                {/* Glare Effect: GPU-composited without software blend readback */}
                 <motion.div
-                    className="absolute inset-0 w-full h-full pointer-events-none z-50 rounded-xl mix-blend-overlay"
+                    className="absolute inset-0 w-full h-full pointer-events-none z-50 rounded-xl"
                     style={{
                         background: glareBackground,
                         opacity: glareOpacity

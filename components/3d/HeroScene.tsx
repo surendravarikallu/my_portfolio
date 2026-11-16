@@ -212,6 +212,7 @@ export default function HeroScene() {
       <Canvas
         frameloop={isInView ? "always" : "never"}
         dpr={[1, 1.5]}
+        performance={{ min: 0.5 }}
         camera={{ position: [0, 0, 5], fov: 45 }}
         gl={{ antialias: false, powerPreference: "default" }}
         onCreated={({ gl }) => {
